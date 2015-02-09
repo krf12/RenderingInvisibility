@@ -4,6 +4,17 @@
  * and open the template in the editor.
  */
 
+if(window.addEventListener){
+    window.addEventListener('DOMMouseScroll',wheel,false);
+}
+
+function wheel(event)
+{
+    event.preventDefault();
+    event.returnValue=false;
+}
+window.onmousewheel=document.onmousewheel=wheel;
+
 var width = window.innerWidth;
 var height = window.innerHeight;
 
