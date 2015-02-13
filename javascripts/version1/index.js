@@ -43,11 +43,7 @@ var urls = [
   './skybox-assets/negz.png'
 ];
 
-var cubemap = THREE.ImageUtils.loadTextureCube(urls);
-cubemap.format = THREE.RGBFormat;
-
-var refractionmap = texture = THREE.ImageUtils.loadTextureCube(
-                         urls, new THREE.CubeRefractionMapping() );
+var cubemap = THREE.ImageUtils.loadTextureCube( urls, THREE.CubeRefractionMapping );
 
 var shader = THREE.ShaderLib['cube']; // init cube shader from built-in lib
 shader.uniforms['tCube'].value = cubemap; // apply textures to shader
@@ -64,7 +60,7 @@ var skybox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
 
 scene.add(skybox);
 
-var clearMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: refractionmap, transparent: true, refractionRatio: .6, opacity: 0.5 } );
+var clearMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubemap, transparent: true, refractionRatio: 0.98, opacity: 0.5 } );
 var sphere = new THREE.Mesh( sphereGeom.clone(), clearMaterial );
 sphere.position.set(-100, 50, 50);
 scene.add( sphere );
@@ -72,7 +68,7 @@ scene.add( sphere );
 camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 scene.add(camera);
 camera.position.set(0,150,400);
-camera.lookAt(sphere.position);
+camera.lookAt(scene.position);
 
 //Controls taken from Three.js tutorial - adds zoom and camera movement
 var controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -83,6 +79,11 @@ var light = new THREE.PointLight(0xffffff);
 light.position.set(0,250,0);
 scene.add(light);
 
+var lightSphere = new THREE.SphereGeometry( 100, 16, 8 );
+var mesh = new THREE.Mesh( lightSphere, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
+mesh.scale.set( 0.05, 0.05, 0.05 );
+light.add( mesh );
+
 var clock = new THREE.Clock();
 
 function update(){
@@ -90,6 +91,7 @@ function update(){
 }
 
 function render() {
+  renderer.clear();
   renderer.render(scene, camera);
 }
 
