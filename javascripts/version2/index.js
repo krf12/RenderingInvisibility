@@ -41,19 +41,22 @@ var controls;
 function init(){
   scene = new THREE.Scene();
 
+  var skyBoxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
+
   var urls = [
-    './skybox-assets/posx.png',
-    './skybox-assets/negx.png',
-    './skybox-assets/posy.png',
-    './skybox-assets/negy.png',
-    './skybox-assets/posz.png',
-    './skybox-assets/negz.png'
+  './skybox-assets/posx.png',
+  './skybox-assets/negx.png',
+  './skybox-assets/posy.png',
+  './skybox-assets/negy.png',
+  './skybox-assets/posz.png',
+  './skybox-assets/negz.png'
   ];
 
-  cubemap = THREE.ImageUtils.loadTextureCube( urls, new THREE.CubeRefractionMapping(), render );
+  var cubemap = THREE.ImageUtils.loadTextureCube( urls, new THREE.CubeRefractionMapping(), render );
 
   var shader = THREE.ShaderLib['cube']; // init cube shader from built-in lib
   shader.uniforms['tCube'].value = cubemap; // apply textures to shader
+
   var skyBoxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
   var skyBoxMaterial = new THREE.ShaderMaterial( {
     fragmentShader: shader.fragmentShader,
