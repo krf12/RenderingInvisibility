@@ -32,8 +32,7 @@ window.addEventListener('resize', function() {
 
 var scene = new THREE.Scene();
 
-var innerSphereGeom =  new THREE.SphereGeometry( 40, 32, 16 );
-var outerSphereGeom =  new THREE.SphereGeometry( 80, 64, 32 );
+var sphereGeom =  new THREE.SphereGeometry( 40, 32, 16 );
 
 var urls = [
   './skybox-assets/posx.png',
@@ -44,7 +43,7 @@ var urls = [
   './skybox-assets/negz.png'
 ];
 
-var cubemap = THREE.ImageUtils.loadTextureCube( urls, new THREE.CubeRefractionMapping(), render );
+var cubemap = THREE.ImageUtils.loadTextureCube( urls, THREE.CubeRefractionMapping );
 
 var shader = THREE.ShaderLib['cube']; // init cube shader from built-in lib
 shader.uniforms['tCube'].value = cubemap; // apply textures to shader
@@ -61,20 +60,15 @@ var skybox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
 
 scene.add(skybox);
 
-var innerClearMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubemap, transparent: true, refractionRatio: 0.6, opacity: 0.5 } );
-var innerSphere = new THREE.Mesh( innerSphereGeom.clone(), innerClearMaterial );
-innerSphere.position.set(-100, 50, 50);
-scene.add( innerSphere );
-
-var outerClearMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubemap, transparent: true, refractionRatio: 0.6, opacity: 0.5 } );
-var outerSphere = new THREE.Mesh( outerSphereGeom.clone(), outerClearMaterial );
-outerSphere.position.set(-100, 50, 50);
-scene.add( outerSphere );
+var clearMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubemap, transparent: true, refractionRatio: 0.98, opacity: 0.5 } );
+var sphere = new THREE.Mesh( sphereGeom.clone(), clearMaterial );
+sphere.position.set(-100, 50, 50);
+scene.add( sphere );
 
 camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 scene.add(camera);
 camera.position.set(0,150,400);
-camera.lookAt(outerSphere.position);
+camera.lookAt(scene.position);
 
 //Controls taken from Three.js tutorial - adds zoom and camera movement
 var controls = new THREE.OrbitControls( camera, renderer.domElement );

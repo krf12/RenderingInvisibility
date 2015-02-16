@@ -4,8 +4,6 @@
 * and open the template in the editor.
 */
 
-//Scroll lock and ensuring resizing doesn't affect the camera.
-
 if(window.addEventListener){
     window.addEventListener('DOMMouseScroll',wheel,false);
 }
@@ -32,6 +30,7 @@ window.addEventListener('resize', function() {
   camera.updateProjectionMatrix();
 });
 
+<<<<<<< HEAD
 //Global Variables
 var scene;
 var cubemap;
@@ -84,26 +83,63 @@ function init(){
 
   addShells();
 }
+=======
+var scene = new THREE.Scene();
+>>>>>>> parent of 9a49cac... Updating spheres, now working.
 
-function addShells(){
+var sphereGeom =  new THREE.SphereGeometry( 40, 32, 16 );
 
-  var radius = [
-      50, 55, 60, 65, 70
-  ];
+var urls = [
+  './skybox-assets/posx.png',
+  './skybox-assets/negx.png',
+  './skybox-assets/posy.png',
+  './skybox-assets/negy.png',
+  './skybox-assets/posz.png',
+  './skybox-assets/negz.png'
+];
 
-  var ratio = [
-     0.5, 0.55, 0.6, 0.65, 0.7
-  ];
+var cubemap = THREE.ImageUtils.loadTextureCube( urls, THREE.CubeRefractionMapping );
 
-  var clearMaterial;
-  var sphere;
-  for(var i = 0; i < radius.length; i++){
-    clearMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubemap, transparent: true, refractionRatio: ratio[i], opacity: 0.5 } );
-    sphere = new THREE.Mesh(new THREE.SphereGeometry(radius[i], 32, 16), clearMaterial);
-    sphere.position.set(0,0,0);
-    scene.add(sphere);
-  }
-}
+var shader = THREE.ShaderLib['cube']; // init cube shader from built-in lib
+shader.uniforms['tCube'].value = cubemap; // apply textures to shader
+
+var skyBoxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
+var skyBoxMaterial = new THREE.ShaderMaterial( {
+  fragmentShader: shader.fragmentShader,
+  vertexShader: shader.vertexShader,
+  uniforms: shader.uniforms,
+  depthWrite: false,
+  side: THREE.BackSide
+});
+var skybox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
+
+scene.add(skybox);
+
+var clearMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubemap, transparent: true, refractionRatio: 0.98, opacity: 0.5 } );
+var sphere = new THREE.Mesh( sphereGeom.clone(), clearMaterial );
+sphere.position.set(-100, 50, 50);
+scene.add( sphere );
+
+camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+scene.add(camera);
+camera.position.set(0,150,400);
+camera.lookAt(scene.position);
+
+//Controls taken from Three.js tutorial - adds zoom and camera movement
+var controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+var ambientLight = new THREE.AmbientLight(0x444444);
+scene.add(ambientLight);
+var light = new THREE.PointLight(0xffffff);
+light.position.set(0,250,0);
+scene.add(light);
+
+var lightSphere = new THREE.SphereGeometry( 100, 16, 8 );
+var mesh = new THREE.Mesh( lightSphere, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
+mesh.scale.set( 0.05, 0.05, 0.05 );
+light.add( mesh );
+
+var clock = new THREE.Clock();
 
 function update(){
   controls.update();
@@ -120,5 +156,4 @@ function animate(){
   update();
 }
 
-init();
 animate();
