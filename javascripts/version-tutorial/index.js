@@ -49,9 +49,10 @@ var particleSystem = new THREE.ParticleSystem(particles, particleMaterial);
 
 scene.add(particleSystem);
 
+
 var cubeGeometry = new THREE.CubeGeometry(100, 100, 100);
 var cubeTexture = new THREE.ImageUtils.loadTexture('./tutorial-assets/box.png');
-//var cubeMaterial = new THREE.MeshLambertMaterial({ map: cubeTexture, color: 0x28c0ec});
+var cubeMaterial = new THREE.MeshLambertMaterial({ map: cubeTexture, color: 0x28c0ec});
 var materials = [];
 materials.push(new THREE.MeshLambertMaterial({ map: cubeTexture, color: 0xff0000 })); // right face
 materials.push(new THREE.MeshLambertMaterial({ map: cubeTexture, color: 0xffff00 })); // left face
@@ -66,12 +67,26 @@ cube.rotation.y = Math.PI * 45 / 180;
 
 scene.add(cube);
 
+var pts = []; // points array - path profile points stored here
+var detail = .01; //half-circle detail - how many angle increments will be used to generate points
+var radius = 100; //radius for half sphere
+for(var angle = 0.0; angle < Math.PI; angle+= detail)
+  pts.push(new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius));
+
+hemisphereGeom = new THREE.LatheGeometry(pts, 12);
+var hemisphereMat = new THREE.MeshLambertMaterial({ map: cubeTexture, color: 0xffff00 });
+var hemisphere = new THREE.Mesh(hemisphereGeom, hemisphereMat);
+
+hemisphere.rotation.x = -90
+
+scene.add(hemisphere);
+
 var camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 10000);
 
 camera.position.y = 160;
 camera.position.z = 400;
 
-camera.lookAt(cube.position);
+camera.lookAt(hemisphere.position);
 
 scene.add(camera);
 

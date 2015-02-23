@@ -79,13 +79,23 @@ function init(){
   directionalLight.position.set(1, 1, 1).normalize();
   scene.add(directionalLight);
 
+  addCentralObject();
   addShells();
+}
+
+function addCentralObject(){
+  var cubeGeom = new THREE.CubeGeometry(100, 100, 100);
+  var cubeMaterial = new THREE.MeshNormalMaterial();
+
+  var cube = new THREE.Mesh(cubeGeom, cubeMaterial);
+  cube.position.set(0,0,0);
+  scene.add(cube);
 }
 
 function addShells(){
 
   var radius = [
-      50, 55, 60, 65, 70
+      150, 200, 250, 300, 350
   ];
 
   var ratio = [
@@ -95,10 +105,23 @@ function addShells(){
   var clearMaterial;
   var sphere;
   for(var i = 0; i < radius.length; i++){
+    var pts = []; // points array - path profile points stored here
+    var detail = .01; //half-circle detail - how many angle increments will be used to generate points
+    var radiusInst = radius[i] ; //radius for half sphere
+    for(var angle = 0.0; angle < Math.PI; angle+= detail)
+      pts.push(new THREE.Vector3(Math.cos(angle) * radiusInst, 0, Math.sin(angle) * radiusInst));
+
+    hemisphereGeom = new THREE.LatheGeometry(pts, 12);
+
     clearMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubemap, transparent: true, refractionRatio: ratio[i], opacity: 0.5 } );
-    sphere = new THREE.Mesh(new THREE.SphereGeometry(radius[i], 32, 16), clearMaterial);
+    secondClearMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubemap, transparent: true, refractionRatio: ratio[i], opacity: 0.5 } );
+    sphere = new THREE.Mesh(hemisphereGeom, clearMaterial);
     sphere.position.set(0,0,0);
     scene.add(sphere);
+    secondSphere = new THREE.Mesh(hemisphereGeom, secondClearMaterial);
+    secondSphere.position.set(0,0,0);
+    secondSphere.rotation.y = 180*(Math.PI/180);
+    scene.add(secondSphere);
   }
 }
 
