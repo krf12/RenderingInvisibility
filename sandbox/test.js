@@ -87,11 +87,14 @@ function initTHREE(){
     uShapeTi: {type: "i", value: gShapeTi}
   };
 
+  var vShader = $("#shader-vs");
+  var fShader = $("#shader-fs");
+
   var shader = new THREE.ShaderMaterial(
     {
       uniforms: uniforms,
-      vertexShader: $("#shader-vs").text(),
-      fragmentShader: $("#shader-fs").text()
+      vertexShader: vShader.text(),
+      fragmentShader: fShader.text()
     });
 
     //setup plane in scene for rendering
@@ -115,5 +118,5 @@ function init(){
 /* DOC READY */
 $(document).ready(function() {
   // load shader strings
-  $("#shader-fs").load("shader/render.fs", init);
+  $("#shader-fs").load("render.fs", init);
 });

@@ -107,7 +107,7 @@ function addShells(){
   var sphere;
   for(var i = 0; i < radius.length; i++){
     var pts = []; // points array - path profile points stored here
-    var detail = .01; //half-circle detail - how many angle increments will be used to generate points
+    var detail = .005; //half-circle detail - how many angle increments will be used to generate points
     var radiusInst = radius[i] ; //radius for half sphere
     for(var angle = 0.0; angle < Math.PI; angle+= detail)
       pts.push(new THREE.Vector3(Math.cos(angle) * radiusInst, 0, Math.sin(angle) * radiusInst));
