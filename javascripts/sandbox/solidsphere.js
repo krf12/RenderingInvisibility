@@ -15,25 +15,26 @@ function init(){
 
 
 	var urls = [
-		'../pages/skybox-assets/posx.png',
-		'../pages/skybox-assets/negx.png',
-		'../pages/skybox-assets/posy.png',
-		'../pages/skybox-assets/negy.png',
-		'../pages/skybox-assets/posz.png',
-		'../pages/skybox-assets/negz.png'
+		'./skybox-assets/posx.png',
+		'./skybox-assets/negx.png',
+		'./skybox-assets/posy.png',
+		'./skybox-assets/negy.png',
+		'./skybox-assets/posz.png',
+		'./skybox-assets/negz.png'
 	];
 
-	cubemap = THREE.ImageUtils.loadTextureCube( urls, new THREE.CubeRefractionMapping(), render );
+	cubemap = THREE.ImageUtils.loadTextureCube( urls, render );
+	refractmap = THREE.ImageUtils.loadTextureCube( urls, new THREE.CubeRefractionMapping(), render );
 
-	var shader = THREE.ShaderLib['cube']; //init cube shader from built-in lib
-	shader.uniforms['tCube'].value = cubemap; //apply textures to shader
+	var shader = THREE.ShaderLib['cube']; // init cube shader from built-in lib
+	shader.uniforms['tCube'].value = refractmap; // apply textures to shader
 	var skyBoxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
 	var skyBoxMaterial = new THREE.ShaderMaterial( {
-			fragmentShader: shader.fragmentShader,
-			vertexShader: shader.vertexShader,
-			uniforms: shader.uniforms,
-			depthWrite: false,
-			side: THREE.BackSide
+		fragmentShader: shader.fragmentShader,
+		vertexShader: shader.vertexShader,
+		uniforms: shader.uniforms,
+		depthWrite: false,
+		side: THREE.BackSide
 	});
 	var skybox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
 	scene.add(skybox);
@@ -51,16 +52,36 @@ function init(){
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	innerControls = new THREE.OrbitControls( innerCamera, renderer.domElement);
 
+	var InvisibilityShader = THREE.InvisibilityShader;
+	var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
+	InvisibilityUniforms[ "tCube" ].value = refractmap;
 
-	var sphereGeom = new THREE.SphereGeometry(500, 100, 100);
-	var clearMaterial = new THREE.MeshPhongMaterial( { color: 0x660066, transparent: true, refractionRatio: 0.6, opacity: 0.5, side: THREE.DoubleSide } );
+	var sphereGeom = new THREE.SphereGeometry(500,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+	var clearMaterial = new THREE.ShaderMaterial( {
+		fragmentShader: InvisibilityShader.fragmentShader,
+		vertexShader: InvisibilityShader.vertexShader,
+		uniforms: InvisibilityUniforms,
+		side: THREE.FrontSide
+	});
 	var sphere = new THREE.Mesh(sphereGeom, clearMaterial);
 
-	var innerSphereGeom = new THREE.SphereGeometry(250, 100, 100);
-	var innerClearMaterial = new THREE.MeshPhongMaterial( { color: 0x660066, transparent: true, refractionRatio: 0.6, opacity: 0.8, side:THREE.FrontSide } );
-	var innerSphere = new THREE.Mesh(innerSphereGeom, innerClearMaterial);
+	var InvisibilityInnerShader = THREE.InvisibilityInnerShader;
+	var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
+ 	InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
 
-	var innerClearMaterial2 = new THREE.MeshLambertMaterial( { color: 0xff0000, transparent: true, refractionRatio: 0.6, opacity: 0.8, side:THREE.BackSide } );
+	hemisphereGeom = new THREE.SphereGeometry(250,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+
+	var innerClearMaterial = new THREE.ShaderMaterial( {
+		fragmentShader: InvisibilityInnerShader.fragmentShader,
+		vertexShader: InvisibilityInnerShader.vertexShader,
+		uniforms: InvisibilityInnerUniforms,
+		side: THREE.FrontSide
+	});
+
+	var innerSphere = new THREE.Mesh(hemisphereGeom, innerClearMaterial);
+
+	var innerSphereGeom = new THREE.SphereGeometry(250, 100, 100);
+	var innerClearMaterial2 = new THREE.MeshLambertMaterial( { envMap: refractmap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );
 	var innerSphere2 = new THREE.Mesh(innerSphereGeom, innerClearMaterial2);
 
 	scene.add(innerSphere);
@@ -72,15 +93,8 @@ function init(){
 	var cube = new THREE.Mesh(cubeGeom, cubeMaterial);
 	scene.add(cube);
 
-	var floorMaterial = new THREE.MeshBasicMaterial( { color: 0x222222, side: THREE.DoubleSide} );
-	var floorGeometry = new THREE.PlaneGeometry(3000, 3000, 1, 1);
-	var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-	floor.position.y = -500;
-	floor.rotation.x = Math.PI / 2;
-	scene.add(floor);
-
 	var directionalLight = new THREE.DirectionalLight(0xffffff);
-	directionalLight.position.set(1, 1, 1).normalize();
+	directionalLight.position.set(1, 50, 1).normalize();
 	scene.add(directionalLight);
 
 
