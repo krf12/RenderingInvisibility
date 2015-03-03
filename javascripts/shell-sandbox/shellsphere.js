@@ -87,7 +87,7 @@ function init(){
 
 	scene.add(sphere);
 
-	var cubeGeom = new THREE.CubeGeometry(10, 10, 10);
+	var cubeGeom = new THREE.CubeGeometry(25, 25, 25);
 	var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
 	var cube = new THREE.Mesh(cubeGeom, cubeMaterial);
 	scene.add(cube);
