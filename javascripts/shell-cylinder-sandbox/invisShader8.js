@@ -5,27 +5,20 @@
 * Based on alteredq's Fresnel Shader / http://alteredqualia.com/
 */
 
-THREE.InvisShader = {
+THREE.InvisShader8 = {
 
 	uniforms: {
 
 		"tCube": { type: "t", value: null },
-		"mRefractionNumber" : { type: "i", value: 0},
-		"mRefractionRatio" : { type: "f", value: 0.0},
 
 	},
 
 	vertexShader: [
 
-		"uniform int mRefractionNumber;",
-		"uniform float mRefractionRatio;",
-
 		"varying vec3 vRefract[3];",
 		"varying vec3 vRefractForward[10];",
 
 		"void main() {",
-
-			"int index = mRefractionNumber;",
 
 			"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
 			"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );",
@@ -45,56 +38,9 @@ THREE.InvisShader = {
 			"vRefractForward[8] = refract( normalize( vRefractForward[7] ), worldNormal, 0.2);",
 			"vRefractForward[9] = refract( normalize( vRefractForward[8] ), worldNormal, 0.1);",
 
-			"if(index == 0){",
-				"vRefract[0] = vRefractForward[0];",
-				"vRefract[1] = vRefractForward[1];",
-				"vRefract[2] = vRefractForward[2];",
-			"}",
-			"else if(index == 1){",
-				"vRefract[0] = vRefractForward[1];",
-				"vRefract[1] = vRefractForward[2];",
-				"vRefract[2] = vRefractForward[3];",
-			"}",
-			"else if(index == 2){",
-				"vRefract[0] = vRefractForward[2];",
-				"vRefract[1] = vRefractForward[3];",
-				"vRefract[2] = vRefractForward[4];",
-			"}",
-			"else if(index == 3){",
-				"vRefract[0] = vRefractForward[3];",
-				"vRefract[1] = vRefractForward[4];",
-				"vRefract[2] = vRefractForward[5];",
-			"}",
-			"else if(index == 4){",
-				"vRefract[0] = vRefractForward[4];",
-				"vRefract[1] = vRefractForward[5];",
-				"vRefract[2] = vRefractForward[6];",
-			"}",
-			"else if(index == 5){",
-				"vRefract[0] = vRefractForward[5];",
-				"vRefract[1] = vRefractForward[6];",
-				"vRefract[2] = vRefractForward[7];",
-			"}",
-			"else if(index == 6){",
-				"vRefract[0] = vRefractForward[6];",
-				"vRefract[1] = vRefractForward[7];",
-				"vRefract[2] = vRefractForward[8];",
-			"}",
-			"else if(index == 7){",
-				"vRefract[0] = vRefractForward[7];",
-				"vRefract[1] = vRefractForward[8];",
-				"vRefract[2] = vRefractForward[9];",
-			"}",
-			"else if(index == 8){",
-				"vRefract[0] = vRefractForward[8];",
-				"vRefract[1] = vRefractForward[9];",
-				"vRefract[2] = vRefractForward[9];",
-			"}",
-			"else if(index == 9){",
-				"vRefract[0] = vRefractForward[9];",
-				"vRefract[1] = vRefractForward[9];",
-				"vRefract[2] = vRefractForward[9];",
-			"}",
+			"vRefract[0] = vRefractForward[8];",
+			"vRefract[1] = vRefractForward[9];",
+			"vRefract[2] = vRefractForward[9];",
 
 			"gl_Position = projectionMatrix * mvPosition;",
 

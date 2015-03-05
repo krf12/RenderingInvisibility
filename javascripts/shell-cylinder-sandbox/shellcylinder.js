@@ -52,11 +52,12 @@ function init(){
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	innerControls = new THREE.OrbitControls( innerCamera, renderer.domElement);
 
-	var sphereRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100, 50];
+	var cylinderRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100, 50];
+	var heightRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100, 50];
 
 	var copyInvisShader;
 
-	for(var i = 0; i < sphereRatios.length; i++){
+	for(var i = 0; i < cylinderRatios.length; i++){
 
 	if(i == 0){
 		copyInvisShader = THREE.InvisShader0;
@@ -119,24 +120,24 @@ function init(){
 		copyInvisShader.uniforms = invisShaderUniforms;
 	}
 
-		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
-		var sphereMaterial = new THREE.ShaderMaterial({
+		var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
+		var cylinderMaterial = new THREE.ShaderMaterial({
 			fragmentShader: copyInvisShader.fragmentShader,
 			vertexShader: copyInvisShader.vertexShader,
 			uniforms: copyInvisShader.uniforms,
 			side: THREE.FrontSide
 		});
 
-		var sphere = new THREE.Mesh(sphereGeom, sphereMaterial);
+		var cylinder = new THREE.Mesh(cylinderGeom, cylinderMaterial);
 
-		scene.add(sphere);
+		scene.add(cylinder);
 	}
 
-	var innerSphereGeom = new THREE.SphereGeometry(50, 100, 100);
+	var innerCylinderGeom = new THREE.CylinderGeometry(50, 50, 50, 100, 100);
 	var innerClearMaterial = new THREE.MeshLambertMaterial( { envMap: cubemap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );
-	var innerSphere = new THREE.Mesh(innerSphereGeom, innerClearMaterial);
+	var innerCylinder = new THREE.Mesh(innerCylinderGeom, innerClearMaterial);
 
-	scene.add(innerSphere);
+	scene.add(innerCylinder);
 
 	var cubeGeom = new THREE.CubeGeometry(25, 25, 25);
 	var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
