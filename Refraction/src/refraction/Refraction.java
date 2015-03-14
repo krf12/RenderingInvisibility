@@ -26,12 +26,13 @@ public class Refraction {
         
         double eta[] = new double[]{1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1};
         
-        for(int i = 0; i < eta.length; i++){
-            double etaTemp = eta[i];
+        for(int i = 0; i < eta.length - 1; i++){
+            System.out.println(eta[i] + "/" + eta[i+1]);
+            double etaTemp = eta[i]/eta[i+1];
             
-            double k = 1.0 - etaTemp * etaTemp * (1.0 - -surfaceNormal.dot(incidentVector) * -surfaceNormal.dot(incidentVector));
+            double k = 1.0 - etaTemp * etaTemp * (1.0 - surfaceNormal.dot(incidentVector) * surfaceNormal.dot(incidentVector));
             
-            Vector R = (incidentVector.times(etaTemp)).plus(surfaceNormal.times(etaTemp * -surfaceNormal.dot(incidentVector) + Math.sqrt(k)));
+            Vector R = (incidentVector.times(etaTemp)).minus(surfaceNormal.times(etaTemp * surfaceNormal.dot(incidentVector) + Math.sqrt(k)));
             
             System.out.println(R.toString());
             
@@ -40,12 +41,13 @@ public class Refraction {
         
         System.out.println("BREAK");
         
-        for(int i = 9; i > 0; i--){
-            double etaTemp = eta[i] * 100;
+        for(int i = 9; i > 1; i--){
+            System.out.println(eta[i] + "/" + eta[i-1]);
+            double etaTemp = eta[i]/eta[i - 1];
             
-            double k = 1.0 - etaTemp * etaTemp * (1.0 - -surfaceNormal.dot(incidentVector) * -surfaceNormal.dot(incidentVector));
+            double k = 1.0 - etaTemp * etaTemp * (1.0 - surfaceNormal.dot(incidentVector) * surfaceNormal.dot(incidentVector));
             
-            Vector R = (incidentVector.times(etaTemp)).plus(surfaceNormal.times(etaTemp * -surfaceNormal.dot(incidentVector) + Math.sqrt(k)));
+            Vector R = (incidentVector.times(etaTemp)).minus(surfaceNormal.times(etaTemp * surfaceNormal.dot(incidentVector) + Math.sqrt(k)));
             
             System.out.println(R.toString());
             
