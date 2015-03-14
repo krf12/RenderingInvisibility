@@ -33,7 +33,9 @@ THREE.InvisibilityShader = {
 			"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
 			"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );",
 
-			"vNormal = vec3(0.0, 150.0, 400.0);",
+			//"vNormal = vec3(0.0, 150.0, 400.0);",
+
+			"vNormal = normal;",
 
 			"vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );",
 
@@ -85,7 +87,7 @@ THREE.InvisibilityShader = {
 
 			"vec4 refractedColor = vec4( 1.0 );",
 
-			"if ( vNormal.z < 0.0 )",
+			"if ( vNormal.x > 0.0 )",
 			"{",
 			"refractedColor.r = textureCube( tCube, vec3( -vRefractEnd[0].x, vRefractEnd[0].yz ) ).r;",
 			"refractedColor.g = textureCube( tCube, vec3( -vRefractEnd[1].x, vRefractEnd[1].yz ) ).g;",

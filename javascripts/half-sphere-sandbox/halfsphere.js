@@ -56,7 +56,18 @@ function init(){
 	var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
 	InvisibilityUniforms[ "tCube" ].value = refractmap;
 
-	var sphereGeom = new THREE.SphereGeometry(500,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+	var sphereGeom = new THREE.SphereGeometry(400, 64, 64, 0, Math.PI);
+
+	for(var i = 0; i < sphereGeom.faces.length; i++) {
+			var f = sphereGeom.faces[i];
+			var tmp = f.a;
+			f.a = f.c;
+			f.c = tmp;
+		}
+
+	sphereGeom.computeFaceNormals();
+	sphereGeom.computeVertexNormals();
+
 	var clearMaterial = new THREE.ShaderMaterial( {
 		fragmentShader: InvisibilityShader.fragmentShader,
 		vertexShader: InvisibilityShader.vertexShader,
@@ -69,23 +80,33 @@ function init(){
 	var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
  	InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
 
-	hemisphereGeom = new THREE.SphereGeometry(250,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+	var hemiSphereGeom = new THREE.SphereGeometry(200, 64, 64, 0, Math.PI);
+
+	for(var i = 0; i < hemiSphereGeom.faces.length; i++) {
+    var f = hemiSphereGeom.faces[i];
+    var tmp = f.a;
+    f.a = f.c;
+    f.c = tmp;
+	}
+
+	hemiSphereGeom.computeFaceNormals();
+	hemiSphereGeom.computeVertexNormals();
 
 	var innerClearMaterial = new THREE.ShaderMaterial( {
 		fragmentShader: InvisibilityInnerShader.fragmentShader,
 		vertexShader: InvisibilityInnerShader.vertexShader,
 		uniforms: InvisibilityInnerUniforms,
-		side: THREE.FrontSide
+		side: THREE.DoubleSide
 	});
 
-	var innerSphere = new THREE.Mesh(hemisphereGeom, innerClearMaterial);
+	var innerSphere = new THREE.Mesh(hemiSphereGeom, innerClearMaterial);
 
-	var innerSphereGeom = new THREE.SphereGeometry(250, 100, 100);
-	var innerClearMaterial2 = new THREE.MeshLambertMaterial( { envMap: refractmap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );
-	var innerSphere2 = new THREE.Mesh(innerSphereGeom, innerClearMaterial2);
+	//var innerSphereGeom = new THREE.SphereGeometry(250, 100, 100);
+	//var innerClearMaterial2 = new THREE.MeshLambertMaterial( { envMap: refractmap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );
+	//var innerSphere2 = new THREE.Mesh(innerSphereGeom, innerClearMaterial2);
 
 	scene.add(innerSphere);
-	scene.add(innerSphere2);
+	//scene.add(innerSphere2);
 	scene.add(sphere);
 
 	var cubeGeom = new THREE.CubeGeometry(100, 100, 100);
