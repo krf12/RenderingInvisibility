@@ -15,7 +15,7 @@ public class Refraction {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        double surfaceData[] = new double[]{-2.0, -4.0, -2.0};
+        double surfaceData[] = new double[]{2.0, 4.0, 2.0};
         Vector surfaceNormal = new Vector(surfaceData);
         
         double incidentData[] = new double[]{5.0, 5.0, 5.0};

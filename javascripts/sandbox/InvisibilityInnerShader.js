@@ -20,6 +20,7 @@ vertexShader: [
 	"varying vec3 vRefractEnd[3];",
 	"varying vec3 vRefractBegin[3];",
 	"varying vec3 vNormal;",
+	"varying vec3 fNormal;",
 
 	"vec3 refractFull(vec3 I, vec3 N, float eta);",
 
@@ -33,7 +34,8 @@ vertexShader: [
 		"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
 		"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );",
 
-		"vNormal = vec3(-2.0, -4.0, -2.0);",
+		"vNormal = normal;",
+		"fNormal = normal;",
 
 		"vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );",
 
@@ -77,15 +79,13 @@ vertexShader: [
 		"uniform samplerCube tCube;",
 		"varying vec3 vRefractBegin[3];",
 		"varying vec3 vRefractEnd[3];",
-		"varying vec3 vNormal;",
+		"varying vec3 fNormal;",
 
 		"void main() {",
 
-			"vec2 uv = normalize( vNormal ).xy * 0.5 + 0.5;",
-
 			"vec4 refractedColor = vec4( 1.0 );",
 
-			"if ( vNormal.z < 0.0 )",
+			"if ( fNormal.z < 0.0 )",
 			"{",
 			"refractedColor.r = textureCube( tCube, vec3( -vRefractEnd[0].x, vRefractEnd[0].yz ) ).r;",
 			"refractedColor.g = textureCube( tCube, vec3( -vRefractEnd[1].x, vRefractEnd[1].yz ) ).g;",
