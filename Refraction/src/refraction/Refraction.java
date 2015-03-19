@@ -15,10 +15,10 @@ public class Refraction {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        double surfaceData[] = new double[]{2.0, 4.0, 2.0};
+        double surfaceData[] = new double[]{-500.0, -250.0, 0.0};
         Vector surfaceNormal = new Vector(surfaceData);
         
-        double incidentData[] = new double[]{5.0, 5.0, 5.0};
+        double incidentData[] = new double[]{150.0, 50.0, 0.0};
         Vector incidentVector = new Vector(incidentData);
         
         double check = -(surfaceNormal).dot(incidentVector);
@@ -31,6 +31,8 @@ public class Refraction {
             double etaTemp = eta[i]/eta[i+1];
             
             double k = 1.0 - etaTemp * etaTemp * (1.0 - surfaceNormal.dot(incidentVector) * surfaceNormal.dot(incidentVector));
+            
+            System.out.println(k);
             
             Vector R = (incidentVector.times(etaTemp)).minus(surfaceNormal.times(etaTemp * surfaceNormal.dot(incidentVector) + Math.sqrt(k)));
             
@@ -46,6 +48,8 @@ public class Refraction {
             double etaTemp = eta[i]/eta[i - 1];
             
             double k = 1.0 - etaTemp * etaTemp * (1.0 - surfaceNormal.dot(incidentVector) * surfaceNormal.dot(incidentVector));
+            
+            System.out.println(k);
             
             Vector R = (incidentVector.times(etaTemp)).minus(surfaceNormal.times(etaTemp * surfaceNormal.dot(incidentVector) + Math.sqrt(k)));
             

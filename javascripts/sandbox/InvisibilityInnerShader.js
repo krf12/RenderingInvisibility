@@ -26,7 +26,13 @@ vertexShader: [
 
 	"vec3 refractFull(vec3 I, vec3 N, float eta){",
 	"float k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I));",
-	"vec3 R = eta * I - (eta * dot(N, I) + sqrt(k)) * N;",
+	"float kCheck = sqrt(k);",
+
+	"if(kCheck < 0.0){",
+	"kCheck = kCheck * -1.0;",
+	"}",
+
+	"vec3 R = eta * I - (eta * dot(N, I) + kCheck) * N;",
 	"return R; }",
 
 	"void main() {",
