@@ -8,8 +8,14 @@ document.body.appendChild(renderer.domElement);
 //Global Variables
 var scene, camera, cubemap, controls, innerControls, keyboard;
 var innerCameraActive = false;
+var sphere0, sphere1, sphere2, sphere3, sphere4, sphere5, sphere6, sphere7, sphere8;
+var params = {
+		chromatic: false,
+};
 
 function init(){
+	var gui = new dat.GUI({width : 250});
+	gui.add(params, 'chromatic', "Chromatic?");
 	keyboard = new THREEx.KeyboardState();
 	scene = new THREE.Scene();
 
@@ -52,7 +58,7 @@ function init(){
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	innerControls = new THREE.OrbitControls( innerCamera, renderer.domElement);
 
-	var sphereRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100, 50];
+	var sphereRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100];
 
 	var copyInvisShader;
 
@@ -63,61 +69,6 @@ function init(){
 		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
 		invisShaderUniforms["tCube"] = refractmap;
 		copyInvisShader.uniforms = invisShaderUniforms;
-	}
-	else if(i == 1){
-		copyInvisShader = THREE.InvisShader1;
-		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
-		invisShaderUniforms["tCube"] = refractmap;
-		copyInvisShader.uniforms = invisShaderUniforms;
-	}
-	else if(i == 2){
-		copyInvisShader = THREE.InvisShader2;
-		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
-		invisShaderUniforms["tCube"] = refractmap;
-		copyInvisShader.uniforms = invisShaderUniforms;
-	}
-	else if(i == 3){
-		copyInvisShader = THREE.InvisShader3;
-		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
-		invisShaderUniforms["tCube"] = refractmap;
-		copyInvisShader.uniforms = invisShaderUniforms;
-	}
-	else if(i == 4){
-		copyInvisShader = THREE.InvisShader4;
-		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
-		invisShaderUniforms["tCube"] = refractmap;
-		copyInvisShader.uniforms = invisShaderUniforms;
-	}
-	else if(i == 5){
-		copyInvisShader = THREE.InvisShader5;
-		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
-		invisShaderUniforms["tCube"] = refractmap;
-		copyInvisShader.uniforms = invisShaderUniforms;
-	}
-	else if(i == 6){
-		copyInvisShader = THREE.InvisShader6;
-		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
-		invisShaderUniforms["tCube"] = refractmap;
-		copyInvisShader.uniforms = invisShaderUniforms;
-	}
-	else if(i == 7){
-		copyInvisShader = THREE.InvisShader7;
-		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
-		invisShaderUniforms["tCube"] = refractmap;
-		copyInvisShader.uniforms = invisShaderUniforms;
-	}
-	else if(i == 8){
-		copyInvisShader = THREE.InvisShader8;
-		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
-		invisShaderUniforms["tCube"] = refractmap;
-		copyInvisShader.uniforms = invisShaderUniforms;
-	}
-	else if(i == 9){
-		copyInvisShader = THREE.InvisShader9;
-		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
-		invisShaderUniforms["tCube"] = refractmap;
-		copyInvisShader.uniforms = invisShaderUniforms;
-	}
 
 		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
 		var sphereMaterial = new THREE.ShaderMaterial({
@@ -127,12 +78,157 @@ function init(){
 			side: THREE.FrontSide
 		});
 
-		var sphere = new THREE.Mesh(sphereGeom, sphereMaterial);
+		sphere0 = new THREE.Mesh(sphereGeom, sphereMaterial);
 
-		scene.add(sphere);
+		scene.add(sphere0);
+	}
+	else if(i == 1){
+		copyInvisShader = THREE.InvisShader1;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere1 = new THREE.Mesh(sphereGeom, sphereMaterial);
+
+		scene.add(sphere1);
+	}
+	else if(i == 2){
+		copyInvisShader = THREE.InvisShader2;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere2 = new THREE.Mesh(sphereGeom, sphereMaterial);
+
+		scene.add(sphere2);
+	}
+	else if(i == 3){
+		copyInvisShader = THREE.InvisShader3;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere3 = new THREE.Mesh(sphereGeom, sphereMaterial);
+
+		scene.add(sphere3);
+	}
+	else if(i == 4){
+		copyInvisShader = THREE.InvisShader4;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere4 = new THREE.Mesh(sphereGeom, sphereMaterial);
+
+		scene.add(sphere4);
+	}
+	else if(i == 5){
+		copyInvisShader = THREE.InvisShader5;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere5 = new THREE.Mesh(sphereGeom, sphereMaterial);
+
+		scene.add(sphere5);
+	}
+	else if(i == 6){
+		copyInvisShader = THREE.InvisShader6;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere6 = new THREE.Mesh(sphereGeom, sphereMaterial);
+
+		scene.add(sphere6);
+	}
+	else if(i == 7){
+		copyInvisShader = THREE.InvisShader7;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere7 = new THREE.Mesh(sphereGeom, sphereMaterial);
+
+		scene.add(sphere7);
+	}
+	else if(i == 8){
+		copyInvisShader = THREE.InvisShader8;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereGeom = new THREE.SphereGeometry(sphereRatios[i], 100, 100);
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere8 = new THREE.Mesh(sphereGeom, sphereMaterial);
+
+		scene.add(sphere8);
+	}
 	}
 
-	var innerSphereGeom = new THREE.SphereGeometry(50, 100, 100);
+	var innerSphereGeom = new THREE.SphereGeometry(100, 100, 100);
 	var innerClearMaterial = new THREE.MeshLambertMaterial( { envMap: cubemap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );
 	var innerSphere = new THREE.Mesh(innerSphereGeom, innerClearMaterial);
 
@@ -151,6 +247,296 @@ function init(){
 
 }
 
+function updateSpheres(){
+
+	if(params.chromatic){
+		var sphereRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100];
+		var copyInvisShader;
+
+		for(var i = 0; i < sphereRatios.length; i++){
+
+		if(i == 0){
+			copyInvisShader = THREE.ChromaticShader0;
+			var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+			invisShaderUniforms["tCube"] = refractmap;
+			copyInvisShader.uniforms = invisShaderUniforms;
+
+			var sphereMaterial = new THREE.ShaderMaterial({
+				fragmentShader: copyInvisShader.fragmentShader,
+				vertexShader: copyInvisShader.vertexShader,
+				uniforms: copyInvisShader.uniforms,
+				side: THREE.FrontSide
+			});
+
+			sphere0.material = sphereMaterial;
+		}
+		else if(i == 1){
+			copyInvisShader = THREE.ChromaticShader1;
+			var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+			invisShaderUniforms["tCube"] = refractmap;
+			copyInvisShader.uniforms = invisShaderUniforms;
+
+			var sphereMaterial = new THREE.ShaderMaterial({
+				fragmentShader: copyInvisShader.fragmentShader,
+				vertexShader: copyInvisShader.vertexShader,
+				uniforms: copyInvisShader.uniforms,
+				side: THREE.FrontSide
+			});
+
+			sphere1.material = sphereMaterial;
+		}
+		else if(i == 2){
+			copyInvisShader = THREE.ChromaticShader2;
+			var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+			invisShaderUniforms["tCube"] = refractmap;
+			copyInvisShader.uniforms = invisShaderUniforms;
+
+			var sphereMaterial = new THREE.ShaderMaterial({
+				fragmentShader: copyInvisShader.fragmentShader,
+				vertexShader: copyInvisShader.vertexShader,
+				uniforms: copyInvisShader.uniforms,
+				side: THREE.FrontSide
+			});
+
+			sphere2.material = sphereMaterial;
+		}
+		else if(i == 3){
+			copyInvisShader = THREE.ChromaticShader3;
+			var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+			invisShaderUniforms["tCube"] = refractmap;
+			copyInvisShader.uniforms = invisShaderUniforms;
+
+			var sphereMaterial = new THREE.ShaderMaterial({
+				fragmentShader: copyInvisShader.fragmentShader,
+				vertexShader: copyInvisShader.vertexShader,
+				uniforms: copyInvisShader.uniforms,
+				side: THREE.FrontSide
+			});
+
+			sphere3.material = sphereMaterial;
+		}
+		else if(i == 4){
+			copyInvisShader = THREE.ChromaticShader4;
+			var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+			invisShaderUniforms["tCube"] = refractmap;
+			copyInvisShader.uniforms = invisShaderUniforms;
+
+			var sphereMaterial = new THREE.ShaderMaterial({
+				fragmentShader: copyInvisShader.fragmentShader,
+				vertexShader: copyInvisShader.vertexShader,
+				uniforms: copyInvisShader.uniforms,
+				side: THREE.FrontSide
+			});
+
+			sphere4.material = sphereMaterial;
+		}
+		else if(i == 5){
+			copyInvisShader = THREE.ChromaticShader5;
+			var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+			invisShaderUniforms["tCube"] = refractmap;
+			copyInvisShader.uniforms = invisShaderUniforms;
+
+			var sphereMaterial = new THREE.ShaderMaterial({
+				fragmentShader: copyInvisShader.fragmentShader,
+				vertexShader: copyInvisShader.vertexShader,
+				uniforms: copyInvisShader.uniforms,
+				side: THREE.FrontSide
+			});
+
+			sphere5.material = sphereMaterial;
+		}
+		else if(i == 6){
+			copyInvisShader = THREE.ChromaticShader6;
+			var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+			invisShaderUniforms["tCube"] = refractmap;
+			copyInvisShader.uniforms = invisShaderUniforms;
+
+			var sphereMaterial = new THREE.ShaderMaterial({
+				fragmentShader: copyInvisShader.fragmentShader,
+				vertexShader: copyInvisShader.vertexShader,
+				uniforms: copyInvisShader.uniforms,
+				side: THREE.FrontSide
+			});
+
+			sphere6.material = sphereMaterial;
+		}
+		else if(i == 7){
+			copyInvisShader = THREE.ChromaticShader7;
+			var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+			invisShaderUniforms["tCube"] = refractmap;
+			copyInvisShader.uniforms = invisShaderUniforms;
+
+			var sphereMaterial = new THREE.ShaderMaterial({
+				fragmentShader: copyInvisShader.fragmentShader,
+				vertexShader: copyInvisShader.vertexShader,
+				uniforms: copyInvisShader.uniforms,
+				side: THREE.FrontSide
+			});
+
+			sphere7.material = sphereMaterial;
+		}
+		else if(i == 8){
+			copyInvisShader = THREE.ChromaticShader8;
+			var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+			invisShaderUniforms["tCube"] = refractmap;
+			copyInvisShader.uniforms = invisShaderUniforms;
+
+			var sphereMaterial = new THREE.ShaderMaterial({
+				fragmentShader: copyInvisShader.fragmentShader,
+				vertexShader: copyInvisShader.vertexShader,
+				uniforms: copyInvisShader.uniforms,
+				side: THREE.FrontSide
+			});
+
+			sphere8.material = sphereMaterial;
+		}
+		}
+	}
+	else{
+	var sphereRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100];
+	var copyInvisShader;
+
+	for(var i = 0; i < sphereRatios.length; i++){
+
+	if(i == 0){
+		copyInvisShader = THREE.InvisShader0;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere0.material = sphereMaterial;
+	}
+	else if(i == 1){
+		copyInvisShader = THREE.InvisShader1;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere1.material = sphereMaterial;
+	}
+	else if(i == 2){
+		copyInvisShader = THREE.InvisShader2;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere2.material = sphereMaterial;
+	}
+	else if(i == 3){
+		copyInvisShader = THREE.InvisShader3;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere3.material = sphereMaterial;
+	}
+	else if(i == 4){
+		copyInvisShader = THREE.InvisShader4;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere4.material = sphereMaterial;
+	}
+	else if(i == 5){
+		copyInvisShader = THREE.InvisShader5;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere5.material = sphereMaterial;
+	}
+	else if(i == 6){
+		copyInvisShader = THREE.InvisShader6;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere6.material = sphereMaterial;
+	}
+	else if(i == 7){
+		copyInvisShader = THREE.InvisShader7;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere7.material = sphereMaterial;
+	}
+	else if(i == 8){
+		copyInvisShader = THREE.InvisShader8;
+		var invisShaderUniforms = THREE.UniformsUtils.clone(copyInvisShader.uniforms);
+		invisShaderUniforms["tCube"] = refractmap;
+		copyInvisShader.uniforms = invisShaderUniforms;
+
+		var sphereMaterial = new THREE.ShaderMaterial({
+			fragmentShader: copyInvisShader.fragmentShader,
+			vertexShader: copyInvisShader.vertexShader,
+			uniforms: copyInvisShader.uniforms,
+			side: THREE.FrontSide
+		});
+
+		sphere8.material = sphereMaterial;
+	}
+	}
+}
+}
+
 function update(){
 	if(innerCameraActive){
 		innerControls.update();
@@ -162,6 +548,8 @@ function update(){
 	{  innerCameraActive = true;  }
 	if ( keyboard.pressed("2") )
 	{  innerCameraActive = false;  }
+
+	updateSpheres();
 }
 
 function render() {
