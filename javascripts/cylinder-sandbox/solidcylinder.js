@@ -8,8 +8,18 @@ document.body.appendChild(renderer.domElement);
 //Global Variables
 var scene, camera, cubemap, controls, innerControls, keyboard;
 var innerCameraActive = false;
+var innerCylinder;
+var cylinder;
+var refractmap;
+var innerCameraActive = false;
+var params = {
+		chromatic: false,
+};
 
 function init(){
+
+	var gui = new dat.GUI({width : 250});
+	gui.add(params, 'chromatic', "Chromatic?");
 	keyboard = new THREEx.KeyboardState();
 	scene = new THREE.Scene();
 
@@ -52,6 +62,41 @@ function init(){
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	innerControls = new THREE.OrbitControls( innerCamera, renderer.domElement);
 
+if(params.chromatic){
+	console.log("check");
+
+	var ChromaticShader = THREE.ChromaticShader;
+	var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
+	ChromaticUniforms[ "tCube" ].value = refractmap;
+
+	var cylinderGeom = new THREE.CylinderGeometry(500,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+	var clearMaterial = new THREE.ShaderMaterial( {
+		fragmentShader: ChromaticShader.fragmentShader,
+		vertexShader: ChromaticShader.vertexShader,
+		uniforms: ChromaticUniforms,
+		side: THREE.FrontSide
+	});
+	cylinder = new THREE.Mesh(cylinderGeom, clearMaterial);
+
+	var ChromaticInnerShader = THREE.ChromaticInnerShader;
+	var ChromaticInnerUniforms = THREE.UniformsUtils.clone( ChromaticInnerShader.uniforms );
+	ChromaticInnerUniforms[ "tCube" ].value = refractmap;
+
+	var innerGeom = new THREE.CylinderGeometry(250,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+
+	var innerClearMaterial = new THREE.ShaderMaterial( {
+		fragmentShader: ChromaticInnerShader.fragmentShader,
+		vertexShader: ChromaticInnerShader.vertexShader,
+		uniforms: ChromaticInnerUniforms,
+		side: THREE.FrontSide
+	});
+
+	innerCylinder = new THREE.Mesh(innerGeom, innerClearMaterial);
+
+}
+else{
+	console.log("other check");
+
 	var InvisibilityShader = THREE.InvisibilityShader;
 	var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
 	InvisibilityUniforms[ "tCube" ].value = refractmap;
@@ -63,13 +108,13 @@ function init(){
 		uniforms: InvisibilityUniforms,
 		side: THREE.FrontSide
 	});
-	var cylinder = new THREE.Mesh(cylinderGeom, clearMaterial);
+	cylinder = new THREE.Mesh(cylinderGeom, clearMaterial);
 
 	var InvisibilityInnerShader = THREE.InvisibilityInnerShader;
 	var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
- 	InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
+	InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
 
-	hemicylinderGeom = new THREE.CylinderGeometry(250, 250, 300,64,64);
+	var innerGeom = new THREE.CylinderGeometry(250, 250, 300,64,64);
 
 	var innerClearMaterial = new THREE.ShaderMaterial( {
 		fragmentShader: InvisibilityInnerShader.fragmentShader,
@@ -78,7 +123,8 @@ function init(){
 		side: THREE.FrontSide
 	});
 
-	var innerCylinder = new THREE.Mesh(hemicylinderGeom, innerClearMaterial);
+	innerCylinder = new THREE.Mesh(innerGeom, innerClearMaterial);
+}
 
 	var innerCylinderGeom = new THREE.CylinderGeometry(250, 250, 300,64,64);
 	var innerClearMaterial2 = new THREE.MeshLambertMaterial( { envMap: refractmap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );
@@ -101,6 +147,68 @@ function init(){
 
 }
 
+function updateCylinder(){
+	if(params.chromatic){
+		console.log("check");
+
+		var ChromaticShader = THREE.ChromaticShader;
+		var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
+		ChromaticUniforms[ "tCube" ].value = refractmap;
+
+		var clearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: ChromaticShader.fragmentShader,
+			vertexShader: ChromaticShader.vertexShader,
+			uniforms: ChromaticUniforms,
+			side: THREE.FrontSide
+		});
+		cylinder.material = clearMaterial;
+
+		var ChromaticInnerShader = THREE.ChromaticInnerShader;
+		var ChromaticInnerUniforms = THREE.UniformsUtils.clone( ChromaticInnerShader.uniforms );
+		ChromaticInnerUniforms[ "tCube" ].value = refractmap;
+
+		var innerClearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: ChromaticInnerShader.fragmentShader,
+			vertexShader: ChromaticInnerShader.vertexShader,
+			uniforms: ChromaticInnerUniforms,
+			side: THREE.FrontSide
+		});
+
+		innerCylinder.material = innerClearMaterial;
+
+	}
+	else{
+		console.log("other check");
+
+		var InvisibilityShader = THREE.InvisibilityShader;
+		var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
+		InvisibilityUniforms[ "tCube" ].value = refractmap;
+
+		var clearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: InvisibilityShader.fragmentShader,
+			vertexShader: InvisibilityShader.vertexShader,
+			uniforms: InvisibilityUniforms,
+			side: THREE.FrontSide
+		});
+		cylinder.material = clearMaterial;
+
+		var InvisibilityInnerShader = THREE.InvisibilityInnerShader;
+		var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
+		InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
+
+		var innerClearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: InvisibilityInnerShader.fragmentShader,
+			vertexShader: InvisibilityInnerShader.vertexShader,
+			uniforms: InvisibilityInnerUniforms,
+			side: THREE.FrontSide
+		});
+
+		innerCylinder.material = innerClearMaterial;
+	}
+
+}
+
+
 function update(){
 	if(innerCameraActive){
 		innerControls.update();
@@ -112,6 +220,8 @@ function update(){
 	{  innerCameraActive = true;  }
 	if ( keyboard.pressed("2") )
 	{  innerCameraActive = false;  }
+
+	updateCylinder();
 }
 
 function render() {

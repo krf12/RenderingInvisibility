@@ -7,9 +7,18 @@ document.body.appendChild(renderer.domElement);
 
 //Global Variables
 var scene, camera, cubemap, controls, innerControls, keyboard;
+var innerSphere;
+var sphere;
+var refractmap;
 var innerCameraActive = false;
+var params = {
+		chromatic: false,
+};
 
 function init(){
+
+	var gui = new dat.GUI({width : 500});
+	gui.add(params, 'chromatic', "Chromatic?");
 	keyboard = new THREEx.KeyboardState();
 	scene = new THREE.Scene();
 
@@ -52,40 +61,77 @@ function init(){
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	innerControls = new THREE.OrbitControls( innerCamera, renderer.domElement);
 
-	var InvisibilityShader = THREE.InvisibilityShader;
-	var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
-	InvisibilityUniforms[ "tCube" ].value = refractmap;
+	if(params.chromatic){
+		console.log("check");
 
-	var sphereGeom = new THREE.SphereGeometry(500,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
-	var clearMaterial = new THREE.ShaderMaterial( {
-		fragmentShader: InvisibilityShader.fragmentShader,
-		vertexShader: InvisibilityShader.vertexShader,
-		uniforms: InvisibilityUniforms,
-		side: THREE.FrontSide
-	});
-	var sphere = new THREE.Mesh(sphereGeom, clearMaterial);
+		var ChromaticShader = THREE.ChromaticShader;
+		var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
+		ChromaticUniforms[ "tCube" ].value = refractmap;
 
-	var InvisibilityInnerShader = THREE.InvisibilityInnerShader;
-	var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
- 	InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
+		var sphereGeom = new THREE.SphereGeometry(500,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+		var clearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: ChromaticShader.fragmentShader,
+			vertexShader: ChromaticShader.vertexShader,
+			uniforms: ChromaticUniforms,
+			side: THREE.FrontSide
+		});
+		sphere = new THREE.Mesh(sphereGeom, clearMaterial);
 
-	hemisphereGeom = new THREE.SphereGeometry(250,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+		var ChromaticInnerShader = THREE.ChromaticInnerShader;
+		var ChromaticInnerUniforms = THREE.UniformsUtils.clone( ChromaticInnerShader.uniforms );
+		ChromaticInnerUniforms[ "tCube" ].value = refractmap;
 
-	var innerClearMaterial = new THREE.ShaderMaterial( {
-		fragmentShader: InvisibilityInnerShader.fragmentShader,
-		vertexShader: InvisibilityInnerShader.vertexShader,
-		uniforms: InvisibilityInnerUniforms,
-		side: THREE.FrontSide
-	});
+		var innerGeom = new THREE.SphereGeometry(250,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
 
-	var innerSphere = new THREE.Mesh(hemisphereGeom, innerClearMaterial);
+		var innerClearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: ChromaticInnerShader.fragmentShader,
+			vertexShader: ChromaticInnerShader.vertexShader,
+			uniforms: ChromaticInnerUniforms,
+			side: THREE.FrontSide
+		});
+
+		innerSphere = new THREE.Mesh(innerGeom, innerClearMaterial);
+
+	}
+	else{
+		console.log("other check");
+
+		var InvisibilityShader = THREE.InvisibilityShader;
+		var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
+		InvisibilityUniforms[ "tCube" ].value = refractmap;
+
+		var sphereGeom = new THREE.SphereGeometry(500,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+		var clearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: InvisibilityShader.fragmentShader,
+			vertexShader: InvisibilityShader.vertexShader,
+			uniforms: InvisibilityUniforms,
+			side: THREE.FrontSide
+		});
+		sphere = new THREE.Mesh(sphereGeom, clearMaterial);
+
+		var InvisibilityInnerShader = THREE.InvisibilityInnerShader;
+		var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
+		InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
+
+		var innerGeom = new THREE.SphereGeometry(250,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+
+		var innerClearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: InvisibilityInnerShader.fragmentShader,
+			vertexShader: InvisibilityInnerShader.vertexShader,
+			uniforms: InvisibilityInnerUniforms,
+			side: THREE.FrontSide
+		});
+
+		innerSphere = new THREE.Mesh(innerGeom, innerClearMaterial);
+	}
+
 
 	var innerSphereGeom = new THREE.SphereGeometry(250, 100, 100);
 	var innerClearMaterial2 = new THREE.MeshLambertMaterial( { envMap: refractmap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );
 	var innerSphere2 = new THREE.Mesh(innerSphereGeom, innerClearMaterial2);
 
-	scene.add(innerSphere);
 	scene.add(innerSphere2);
+	scene.add(innerSphere);
 	scene.add(sphere);
 
 	var cubeGeom = new THREE.CubeGeometry(100, 100, 100);
@@ -97,7 +143,66 @@ function init(){
 	directionalLight.position.set(1, 50, 1).normalize();
 	scene.add(directionalLight);
 
+}
 
+function updateSphere(){
+	if(params.chromatic){
+		console.log("check");
+
+		var ChromaticShader = THREE.ChromaticShader;
+		var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
+		ChromaticUniforms[ "tCube" ].value = refractmap;
+
+		var clearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: ChromaticShader.fragmentShader,
+			vertexShader: ChromaticShader.vertexShader,
+			uniforms: ChromaticUniforms,
+			side: THREE.FrontSide
+		});
+		sphere.material = clearMaterial;
+
+		var ChromaticInnerShader = THREE.ChromaticInnerShader;
+		var ChromaticInnerUniforms = THREE.UniformsUtils.clone( ChromaticInnerShader.uniforms );
+		ChromaticInnerUniforms[ "tCube" ].value = refractmap;
+
+		var innerClearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: ChromaticInnerShader.fragmentShader,
+			vertexShader: ChromaticInnerShader.vertexShader,
+			uniforms: ChromaticInnerUniforms,
+			side: THREE.FrontSide
+		});
+
+		innerSphere.material = innerClearMaterial;
+
+	}
+	else{
+		console.log("other check");
+
+		var InvisibilityShader = THREE.InvisibilityShader;
+		var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
+		InvisibilityUniforms[ "tCube" ].value = refractmap;
+
+		var clearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: InvisibilityShader.fragmentShader,
+			vertexShader: InvisibilityShader.vertexShader,
+			uniforms: InvisibilityUniforms,
+			side: THREE.FrontSide
+		});
+		sphere.material = clearMaterial;
+
+		var InvisibilityInnerShader = THREE.InvisibilityInnerShader;
+		var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
+		InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
+
+		var innerClearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: InvisibilityInnerShader.fragmentShader,
+			vertexShader: InvisibilityInnerShader.vertexShader,
+			uniforms: InvisibilityInnerUniforms,
+			side: THREE.FrontSide
+		});
+
+		innerSphere.material = innerClearMaterial;
+	}
 
 }
 
@@ -112,6 +217,9 @@ function update(){
 	{  innerCameraActive = true;  }
 	if ( keyboard.pressed("2") )
 	{  innerCameraActive = false;  }
+
+	updateSphere();
+
 }
 
 function render() {

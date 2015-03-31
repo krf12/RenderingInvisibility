@@ -5,7 +5,7 @@
 * Based on alteredq's Fresnel Shader / http://alteredqualia.com/
 */
 
-THREE.InvisibilityShader = {
+THREE.ChromaticShader = {
 
 	uniforms: {
 
@@ -94,10 +94,14 @@ THREE.InvisibilityShader = {
 
 			"if ( fNormal.z < 0.0 )",
 			"{",
-			"refractedColor = textureCube( tCube, vec3( -vRefractEnd[2].x, vRefractEnd[2].yz ) );",
+			"refractedColor.r = textureCube( tCube, vec3(-vRefractEnd[0].x, vRefractEnd[0].y, vRefractEnd[0].z) ).r;",
+			"refractedColor.g = textureCube( tCube, vec3(-vRefractEnd[1].x, vRefractEnd[1].y, vRefractEnd[1].z) ).g;",
+			"refractedColor.b = textureCube( tCube, vec3(-vRefractEnd[2].x, vRefractEnd[2].y, vRefractEnd[2].z) ).b;",
 			"}",
 			"else {",
-			"refractedColor = textureCube( tCube, vec3( -vRefractBegin[0].x, vRefractBegin[0].yz ) );",
+			"refractedColor.r = textureCube( tCube, vec3( -vRefractBegin[0].x, vRefractBegin[0].yz ) ).r;",
+			"refractedColor.g = textureCube( tCube, vec3( -vRefractBegin[1].x, vRefractBegin[1].yz ) ).g;",
+			"refractedColor.b = textureCube( tCube, vec3( -vRefractBegin[2].x, vRefractBegin[2].yz ) ).b;",
 			"};",
 
 			"gl_FragColor = refractedColor;",

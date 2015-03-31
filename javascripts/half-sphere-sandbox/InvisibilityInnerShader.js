@@ -20,12 +20,19 @@ vertexShader: [
 	"varying vec3 vRefractEnd[3];",
 	"varying vec3 vRefractBegin[3];",
 	"varying vec3 vNormal;",
+	"varying vec3 fNormal;",
 
 	"vec3 refractFull(vec3 I, vec3 N, float eta);",
 
 	"vec3 refractFull(vec3 I, vec3 N, float eta){",
 	"float k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I));",
-	"vec3 R = eta * I - (eta * dot(N, I) + sqrt(k)) * N;",
+	"float kCheck = sqrt(k);",
+
+	"if(kCheck < 0.0){",
+	"kCheck = kCheck * -1.0;",
+	"}",
+
+	"vec3 R = eta * I - (eta * dot(N, I) + kCheck) * N;",
 	"return R; }",
 
 	"void main() {",
@@ -33,8 +40,8 @@ vertexShader: [
 		"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
 		"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );",
 
-		//"vNormal = vec3(-2.0, -4.0, -2.0);",
 		"vNormal = normal;",
+		"fNormal = normal;",
 
 		"vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );",
 
@@ -78,25 +85,18 @@ vertexShader: [
 		"uniform samplerCube tCube;",
 		"varying vec3 vRefractBegin[3];",
 		"varying vec3 vRefractEnd[3];",
-		"varying vec3 vNormal;",
+		"varying vec3 fNormal;",
 
 		"void main() {",
 
-			"vec2 uv = normalize( vNormal ).xy * 0.5 + 0.5;",
-
 			"vec4 refractedColor = vec4( 1.0 );",
 
-			"if ( vNormal.x > 0.0 )",
+			"if ( fNormal.z < 0.0 )",
 			"{",
-			"refractedColor.r = textureCube( tCube, vec3( -vRefractEnd[0].x, vRefractEnd[0].yz ) ).r;",
-			"refractedColor.g = textureCube( tCube, vec3( -vRefractEnd[1].x, vRefractEnd[1].yz ) ).g;",
-			"refractedColor.b = textureCube( tCube, vec3( -vRefractEnd[2].x, vRefractEnd[2].yz ) ).b;",
+			"refractedColor = textureCube( tCube, vec3( -vRefractEnd[2].x, vRefractEnd[2].yz ) );",
 			"}",
 			"else {",
-			//"refractedColor = textureCube( tCube, vec3( -vRefractBegin[0].x, vRefractBegin[0].yz ) );",
-			"refractedColor.r = textureCube( tCube, vec3( -vRefractBegin[0].x, vRefractBegin[0].yz ) ).r;",
-			"refractedColor.g = textureCube( tCube, vec3( -vRefractBegin[1].x, vRefractBegin[1].yz ) ).g;",
-			"refractedColor.b = textureCube( tCube, vec3( -vRefractBegin[2].x, vRefractBegin[2].yz ) ).b;",
+			"refractedColor = textureCube( tCube, vec3( -vRefractBegin[0].x, vRefractBegin[0].yz ) );",
 			"};",
 
 			"gl_FragColor = refractedColor;",
