@@ -8,7 +8,7 @@ document.body.appendChild(renderer.domElement);
 //Global Variables
 var scene, camera, cubemap, controls, innerControls, keyboard;
 var innerCameraActive = false;
-var cylinder0, cylinder1, cylinder2, cylinder3, cylinder4, cylinder5, cylinder6, cylinder7, cylinder8;
+var cone0, cone1, cone2, cone3, cone4, cone5, cone6, cone7, cone8;
 var params = {
 	chromatic: false,
 };
@@ -58,11 +58,11 @@ function init(){
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	innerControls = new THREE.OrbitControls( innerCamera, renderer.domElement);
 
-	var cylinderRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100, 50];
+	var coneRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100, 50];
 	var heightRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100, 50];
 	var copyInvisShader;
 
-	for(var i = 0; i < cylinderRatios.length; i++){
+	for(var i = 0; i < coneRatios.length; i++){
 
 		if(i == 0){
 			copyInvisShader = THREE.InvisShader0;
@@ -70,17 +70,17 @@ function init(){
 			invisShaderUniforms["tCube"] = refractmap;
 			copyInvisShader.uniforms = invisShaderUniforms;
 
-			var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
-			var cylinderMaterial = new THREE.ShaderMaterial({
+			var coneGeom = new THREE.CylinderGeometry(0, coneRatios[i], coneRatios[i], heightRatios[i], 100, 100);
+			var coneMaterial = new THREE.ShaderMaterial({
 				fragmentShader: copyInvisShader.fragmentShader,
 				vertexShader: copyInvisShader.vertexShader,
 				uniforms: copyInvisShader.uniforms,
 				side: THREE.FrontSide
 			});
 
-			cylinder0 = new THREE.Mesh(cylinderGeom, cylinderMaterial);
+			cone0 = new THREE.Mesh(coneGeom, coneMaterial);
 
-			scene.add(cylinder0);
+			scene.add(cone0);
 		}
 		else if(i == 1){
 			copyInvisShader = THREE.InvisShader1;
@@ -88,17 +88,17 @@ function init(){
 			invisShaderUniforms["tCube"] = refractmap;
 			copyInvisShader.uniforms = invisShaderUniforms;
 
-			var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
-			var cylinderMaterial = new THREE.ShaderMaterial({
+			var coneGeom = new THREE.CylinderGeometry(0, coneRatios[i], coneRatios[i], heightRatios[i], 100, 100);
+			var coneMaterial = new THREE.ShaderMaterial({
 				fragmentShader: copyInvisShader.fragmentShader,
 				vertexShader: copyInvisShader.vertexShader,
 				uniforms: copyInvisShader.uniforms,
 				side: THREE.FrontSide
 			});
 
-			cylinder1 = new THREE.Mesh(cylinderGeom, cylinderMaterial);
+			cone1 = new THREE.Mesh(coneGeom, coneMaterial);
 
-			scene.add(cylinder1);
+			scene.add(cone1);
 		}
 		else if(i == 2){
 			copyInvisShader = THREE.InvisShader2;
@@ -106,17 +106,17 @@ function init(){
 			invisShaderUniforms["tCube"] = refractmap;
 			copyInvisShader.uniforms = invisShaderUniforms;
 
-			var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
-			var cylinderMaterial = new THREE.ShaderMaterial({
+			var coneGeom = new THREE.CylinderGeometry(0, coneRatios[i], coneRatios[i], heightRatios[i], 100, 100);
+			var coneMaterial = new THREE.ShaderMaterial({
 				fragmentShader: copyInvisShader.fragmentShader,
 				vertexShader: copyInvisShader.vertexShader,
 				uniforms: copyInvisShader.uniforms,
 				side: THREE.FrontSide
 			});
 
-			cylinder2 = new THREE.Mesh(cylinderGeom, cylinderMaterial);
+			cone2 = new THREE.Mesh(coneGeom, coneMaterial);
 
-			scene.add(cylinder2);
+			scene.add(cone2);
 		}
 		else if(i == 3){
 			copyInvisShader = THREE.InvisShader3;
@@ -124,17 +124,17 @@ function init(){
 			invisShaderUniforms["tCube"] = refractmap;
 			copyInvisShader.uniforms = invisShaderUniforms;
 
-			var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
-			var cylinderMaterial = new THREE.ShaderMaterial({
+			var coneGeom = new THREE.CylinderGeometry(0, coneRatios[i], coneRatios[i], heightRatios[i], 100, 100);
+			var coneMaterial = new THREE.ShaderMaterial({
 				fragmentShader: copyInvisShader.fragmentShader,
 				vertexShader: copyInvisShader.vertexShader,
 				uniforms: copyInvisShader.uniforms,
 				side: THREE.FrontSide
 			});
 
-			cylinder3 = new THREE.Mesh(cylinderGeom, cylinderMaterial);
+			cone3 = new THREE.Mesh(coneGeom, coneMaterial);
 
-			scene.add(cylinder3);
+			scene.add(cone3);
 		}
 		else if(i == 4){
 			copyInvisShader = THREE.InvisShader4;
@@ -142,17 +142,17 @@ function init(){
 			invisShaderUniforms["tCube"] = refractmap;
 			copyInvisShader.uniforms = invisShaderUniforms;
 
-			var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
-			var cylinderMaterial = new THREE.ShaderMaterial({
+			var coneGeom = new THREE.CylinderGeometry(0, coneRatios[i], coneRatios[i], heightRatios[i], 100, 100);
+			var coneMaterial = new THREE.ShaderMaterial({
 				fragmentShader: copyInvisShader.fragmentShader,
 				vertexShader: copyInvisShader.vertexShader,
 				uniforms: copyInvisShader.uniforms,
 				side: THREE.FrontSide
 			});
 
-			cylinder4 = new THREE.Mesh(cylinderGeom, cylinderMaterial);
+			cone4 = new THREE.Mesh(coneGeom, coneMaterial);
 
-			scene.add(cylinder4);
+			scene.add(cone4);
 		}
 		else if(i == 5){
 			copyInvisShader = THREE.InvisShader5;
@@ -160,17 +160,17 @@ function init(){
 			invisShaderUniforms["tCube"] = refractmap;
 			copyInvisShader.uniforms = invisShaderUniforms;
 
-			var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
-			var cylinderMaterial = new THREE.ShaderMaterial({
+			var coneGeom = new THREE.CylinderGeometry(0, coneRatios[i], coneRatios[i], heightRatios[i], 100, 100);
+			var coneMaterial = new THREE.ShaderMaterial({
 				fragmentShader: copyInvisShader.fragmentShader,
 				vertexShader: copyInvisShader.vertexShader,
 				uniforms: copyInvisShader.uniforms,
 				side: THREE.FrontSide
 			});
 
-			cylinder5 = new THREE.Mesh(cylinderGeom, cylinderMaterial);
+			cone5 = new THREE.Mesh(coneGeom, coneMaterial);
 
-			scene.add(cylinder5);
+			scene.add(cone5);
 		}
 		else if(i == 6){
 			copyInvisShader = THREE.InvisShader6;
@@ -178,17 +178,17 @@ function init(){
 			invisShaderUniforms["tCube"] = refractmap;
 			copyInvisShader.uniforms = invisShaderUniforms;
 
-			var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
-			var cylinderMaterial = new THREE.ShaderMaterial({
+			var coneGeom = new THREE.CylinderGeometry(0, coneRatios[i], coneRatios[i], heightRatios[i], 100, 100);
+			var coneMaterial = new THREE.ShaderMaterial({
 				fragmentShader: copyInvisShader.fragmentShader,
 				vertexShader: copyInvisShader.vertexShader,
 				uniforms: copyInvisShader.uniforms,
 				side: THREE.FrontSide
 			});
 
-			cylinder6 = new THREE.Mesh(cylinderGeom, cylinderMaterial);
+			cone6 = new THREE.Mesh(coneGeom, coneMaterial);
 
-			scene.add(cylinder6);
+			scene.add(cone6);
 		}
 		else if(i == 7){
 			copyInvisShader = THREE.InvisShader7;
@@ -196,17 +196,17 @@ function init(){
 			invisShaderUniforms["tCube"] = refractmap;
 			copyInvisShader.uniforms = invisShaderUniforms;
 
-			var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
-			var cylinderMaterial = new THREE.ShaderMaterial({
+			var coneGeom = new THREE.CylinderGeometry(0, coneRatios[i], coneRatios[i], heightRatios[i], 100, 100);
+			var coneMaterial = new THREE.ShaderMaterial({
 				fragmentShader: copyInvisShader.fragmentShader,
 				vertexShader: copyInvisShader.vertexShader,
 				uniforms: copyInvisShader.uniforms,
 				side: THREE.FrontSide
 			});
 
-			cylinder7 = new THREE.Mesh(cylinderGeom, cylinderMaterial);
+			cone7 = new THREE.Mesh(coneGeom, coneMaterial);
 
-			scene.add(cylinder7);
+			scene.add(cone7);
 		}
 		else if(i == 8){
 			copyInvisShader = THREE.InvisShader8;
@@ -214,23 +214,22 @@ function init(){
 			invisShaderUniforms["tCube"] = refractmap;
 			copyInvisShader.uniforms = invisShaderUniforms;
 
-			var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
-			var cylinderMaterial = new THREE.ShaderMaterial({
+			var coneGeom = new THREE.CylinderGeometry(0, coneRatios[i], coneRatios[i], heightRatios[i], 100, 100);
+			var coneMaterial = new THREE.ShaderMaterial({
 				fragmentShader: copyInvisShader.fragmentShader,
 				vertexShader: copyInvisShader.vertexShader,
 				uniforms: copyInvisShader.uniforms,
 				side: THREE.FrontSide
 			});
 
-			cylinder8 = new THREE.Mesh(cylinderGeom, cylinderMaterial);
+			cone8 = new THREE.Mesh(coneGeom, coneMaterial);
 
-			scene.add(cylinder8);
+			scene.add(cone8);
 		}
 	}
 
-	var cylinderGeom = new THREE.CylinderGeometry(cylinderRatios[i], cylinderRatios[i], heightRatios[i], 100, 100);
 
-	var innerCylinderGeom = new THREE.CylinderGeometry(100, 100, 100, 100, 100);
+	var innerCylinderGeom = new THREE.CylinderGeometry(0, 100, 100, 100, 100, 100);
 	var innerClearMaterial = new THREE.MeshLambertMaterial( { envMap: cubemap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );
 	var innerCylinder = new THREE.Mesh(innerCylinderGeom, innerClearMaterial);
 
@@ -249,14 +248,14 @@ function init(){
 
 }
 
-function updateCylinders(){
+function updateCones(){
 
 	if(params.chromatic){
-		var cylinderRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100];
+		var coneRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100];
 		var heightRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100];
 		var copyInvisShader;
 
-		for(var i = 0; i < cylinderRatios.length; i++){
+		for(var i = 0; i < coneRatios.length; i++){
 
 			if(i == 0){
 				copyInvisShader = THREE.ChromaticShader0;
@@ -264,14 +263,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder0.material = cylinderMaterial;
+				cone0.material = coneMaterial;
 			}
 			else if(i == 1){
 				copyInvisShader = THREE.ChromaticShader1;
@@ -279,14 +278,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder1.material = cylinderMaterial;
+				cone1.material = coneMaterial;
 			}
 			else if(i == 2){
 				copyInvisShader = THREE.ChromaticShader2;
@@ -294,14 +293,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder2.material = cylinderMaterial;
+				cone2.material = coneMaterial;
 			}
 			else if(i == 3){
 				copyInvisShader = THREE.ChromaticShader3;
@@ -309,14 +308,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder3.material = cylinderMaterial;
+				cone3.material = coneMaterial;
 			}
 			else if(i == 4){
 				copyInvisShader = THREE.ChromaticShader4;
@@ -324,14 +323,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder4.material = cylinderMaterial;
+				cone4.material = coneMaterial;
 			}
 			else if(i == 5){
 				copyInvisShader = THREE.ChromaticShader5;
@@ -339,14 +338,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder5.material = cylinderMaterial;
+				cone5.material = coneMaterial;
 			}
 			else if(i == 6){
 				copyInvisShader = THREE.ChromaticShader6;
@@ -354,14 +353,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder6.material = cylinderMaterial;
+				cone6.material = coneMaterial;
 			}
 			else if(i == 7){
 				copyInvisShader = THREE.ChromaticShader7;
@@ -369,14 +368,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder7.material = cylinderMaterial;
+				cone7.material = coneMaterial;
 			}
 			else if(i == 8){
 				copyInvisShader = THREE.ChromaticShader8;
@@ -384,23 +383,23 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder8.material = cylinderMaterial;
+				cone8.material = coneMaterial;
 			}
 		}
 	}
 	else{
-		var cylinderRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100];
+		var coneRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100];
 		var heightRatios = [500, 450, 400, 350, 300, 250, 200, 150, 100];
 		var copyInvisShader;
 
-		for(var i = 0; i < cylinderRatios.length; i++){
+		for(var i = 0; i < coneRatios.length; i++){
 
 			if(i == 0){
 				copyInvisShader = THREE.InvisShader0;
@@ -408,14 +407,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder0.material = cylinderMaterial;
+				cone0.material = coneMaterial;
 			}
 			else if(i == 1){
 				copyInvisShader = THREE.InvisShader1;
@@ -423,14 +422,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder1.material = cylinderMaterial;
+				cone1.material = coneMaterial;
 			}
 			else if(i == 2){
 				copyInvisShader = THREE.InvisShader2;
@@ -438,14 +437,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder2.material = cylinderMaterial;
+				cone2.material = coneMaterial;
 			}
 			else if(i == 3){
 				copyInvisShader = THREE.InvisShader3;
@@ -453,14 +452,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder3.material = cylinderMaterial;
+				cone3.material = coneMaterial;
 			}
 			else if(i == 4){
 				copyInvisShader = THREE.InvisShader4;
@@ -468,14 +467,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder4.material = cylinderMaterial;
+				cone4.material = coneMaterial;
 			}
 			else if(i == 5){
 				copyInvisShader = THREE.InvisShader5;
@@ -483,14 +482,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder5.material = cylinderMaterial;
+				cone5.material = coneMaterial;
 			}
 			else if(i == 6){
 				copyInvisShader = THREE.InvisShader6;
@@ -498,14 +497,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder6.material = cylinderMaterial;
+				cone6.material = coneMaterial;
 			}
 			else if(i == 7){
 				copyInvisShader = THREE.InvisShader7;
@@ -513,14 +512,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder7.material = cylinderMaterial;
+				cone7.material = coneMaterial;
 			}
 			else if(i == 8){
 				copyInvisShader = THREE.InvisShader8;
@@ -528,14 +527,14 @@ function updateCylinders(){
 				invisShaderUniforms["tCube"] = refractmap;
 				copyInvisShader.uniforms = invisShaderUniforms;
 
-				var cylinderMaterial = new THREE.ShaderMaterial({
+				var coneMaterial = new THREE.ShaderMaterial({
 					fragmentShader: copyInvisShader.fragmentShader,
 					vertexShader: copyInvisShader.vertexShader,
 					uniforms: copyInvisShader.uniforms,
 					side: THREE.FrontSide
 				});
 
-				cylinder8.material = cylinderMaterial;
+				cone8.material = coneMaterial;
 			}
 		}
 	}
@@ -553,7 +552,7 @@ function update(){
 		if ( keyboard.pressed("2") )
 			{  innerCameraActive = false;  }
 
-			updateCylinders();
+			updateCones();
 		}
 
 		function render() {

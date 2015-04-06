@@ -21,6 +21,8 @@ public class Refraction {
         double incidentData[] = new double[]{150.0, 50.0, 0.0};
         Vector incidentVector = new Vector(incidentData);
         
+        incidentVector = incidentVector.direction();
+        
         double check = -(surfaceNormal).dot(incidentVector);
         System.out.println(check);
         
