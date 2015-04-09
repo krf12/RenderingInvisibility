@@ -60,6 +60,56 @@ public class Refraction {
             incidentVector = R;
         }
         
+        double surfaceData2[] = new double[]{-500.0, -250.0, 0.0};
+        surfaceNormal = new Vector(surfaceData2);
+        
+        double incidentData2[] = new double[]{150.0, 50.0, 0.0};
+        incidentVector = new Vector(incidentData2);
+        
+        System.out.println("START OF NEXT METHOD");
+        
+        double positiveSigma = -incidentVector.dot(surfaceNormal) + Math.sqrt(Math.pow(incidentVector.dot(surfaceNormal), 2.0) + (1 - incidentVector.dot(incidentVector)));
+        double negativeSigma = -incidentVector.dot(surfaceNormal) - Math.sqrt(Math.pow(incidentVector.dot(surfaceNormal), 2.0) + (1 - incidentVector.dot(incidentVector)));
+        
+        Vector postiveR = incidentVector.plus(surfaceNormal.times(positiveSigma));
+        Vector negativeR = incidentVector.plus(surfaceNormal.times(negativeSigma));
+        
+        System.out.println(postiveR.toString());
+        System.out.println(negativeR.toString());
+        
+        incidentVector = postiveR;
+        
+        for(int i = 1; i < eta.length - 1; i++){
+            System.out.println(eta[i] + "/" + eta[i+1]);
+            double etaTemp = eta[i]/eta[i+1];
+            
+            double k = 1.0 - etaTemp * etaTemp * (1.0 - surfaceNormal.dot(incidentVector) * surfaceNormal.dot(incidentVector));
+            
+            System.out.println(k);
+            
+            Vector R = (incidentVector.times(etaTemp)).minus(surfaceNormal.times(etaTemp * surfaceNormal.dot(incidentVector) + Math.sqrt(k)));
+            
+            System.out.println(R.toString());
+            
+            incidentVector = R;
+        }
+        
+        System.out.println("BREAK");
+        
+        for(int i = 9; i > 1; i--){
+            System.out.println(eta[i] + "/" + eta[i-1]);
+            double etaTemp = eta[i]/eta[i - 1];
+            
+            double k = 1.0 - etaTemp * etaTemp * (1.0 - surfaceNormal.dot(incidentVector) * surfaceNormal.dot(incidentVector));
+            
+            System.out.println(k);
+            
+            Vector R = (incidentVector.times(etaTemp)).minus(surfaceNormal.times(etaTemp * surfaceNormal.dot(incidentVector) + Math.sqrt(k)));
+            
+            System.out.println(R.toString());
+            
+            incidentVector = R;
+        }
         
     }
     

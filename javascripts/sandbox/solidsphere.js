@@ -17,7 +17,7 @@ var params = {
 
 function init(){
 
-	var gui = new dat.GUI({width : 500});
+	var gui = new dat.GUI({width : 250});
 	gui.add(params, 'chromatic', "Chromatic?");
 	keyboard = new THREEx.KeyboardState();
 	scene = new THREE.Scene();
@@ -68,7 +68,7 @@ function init(){
 		var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
 		ChromaticUniforms[ "tCube" ].value = refractmap;
 
-		var sphereGeom = new THREE.SphereGeometry(500,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+		var sphereGeom = new THREE.SphereGeometry(500,64,64);
 		var clearMaterial = new THREE.ShaderMaterial( {
 			fragmentShader: ChromaticShader.fragmentShader,
 			vertexShader: ChromaticShader.vertexShader,
@@ -81,7 +81,7 @@ function init(){
 		var ChromaticInnerUniforms = THREE.UniformsUtils.clone( ChromaticInnerShader.uniforms );
 		ChromaticInnerUniforms[ "tCube" ].value = refractmap;
 
-		var innerGeom = new THREE.SphereGeometry(250,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+		var innerGeom = new THREE.SphereGeometry(250,64,64);
 
 		var innerClearMaterial = new THREE.ShaderMaterial( {
 			fragmentShader: ChromaticInnerShader.fragmentShader,
@@ -100,7 +100,7 @@ function init(){
 		var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
 		InvisibilityUniforms[ "tCube" ].value = refractmap;
 
-		var sphereGeom = new THREE.SphereGeometry(500,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+		var sphereGeom = new THREE.SphereGeometry(500,64,64);
 		var clearMaterial = new THREE.ShaderMaterial( {
 			fragmentShader: InvisibilityShader.fragmentShader,
 			vertexShader: InvisibilityShader.vertexShader,
@@ -113,7 +113,7 @@ function init(){
 		var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
 		InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
 
-		var innerGeom = new THREE.SphereGeometry(250,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
+		var innerGeom = new THREE.SphereGeometry(250,64,64);
 
 		var innerClearMaterial = new THREE.ShaderMaterial( {
 			fragmentShader: InvisibilityInnerShader.fragmentShader,
@@ -147,7 +147,6 @@ function init(){
 
 function updateSphere(){
 	if(params.chromatic){
-		console.log("check");
 
 		var ChromaticShader = THREE.ChromaticShader;
 		var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
@@ -176,7 +175,6 @@ function updateSphere(){
 
 	}
 	else{
-		console.log("other check");
 
 		var InvisibilityShader = THREE.InvisibilityShader;
 		var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
