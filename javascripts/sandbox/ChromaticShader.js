@@ -48,9 +48,9 @@ THREE.ChromaticShader = {
 
 			"vec3 I = worldPosition.xyz - cameraPosition;",
 
-			"vRefractForward[0] = refractFull( normalize(I) , vNormal, 1.0/0.9 );",
-			"vRefractForward[1] = refractFull( vRefractForward[0] , vNormal, 0.9/0.8 );",
-			"vRefractForward[2] = refractFull( vRefractForward[1] , vNormal, 0.8/0.7 );",
+			"vRefractForward[0] = refractFull( normalize(I) , vNormal, 1.0);",
+			"vRefractForward[1] = refractFull( vRefractForward[0] , vNormal, 0.9);",
+			"vRefractForward[2] = refractFull( vRefractForward[1] , vNormal, 0.8);",
 			"vRefractForward[3] = refractFull( vRefractForward[2] , vNormal, 0.7/0.6 );",
 			"vRefractForward[4] = refractFull( vRefractForward[3] , vNormal, 0.6/0.5 );",
 			"vRefractForward[5] = refractFull( vRefractForward[4] , vNormal, 0.5/0.4 );",
