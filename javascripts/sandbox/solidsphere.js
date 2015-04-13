@@ -62,7 +62,6 @@ function init(){
 	innerControls = new THREE.OrbitControls( innerCamera, renderer.domElement);
 
 	if(params.chromatic){
-		console.log("check");
 
 		var ChromaticShader = THREE.ChromaticShader;
 		var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
@@ -94,7 +93,6 @@ function init(){
 
 	}
 	else{
-		console.log("other check");
 
 		var InvisibilityShader = THREE.InvisibilityShader;
 		var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );

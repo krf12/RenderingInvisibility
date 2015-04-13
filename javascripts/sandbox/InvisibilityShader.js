@@ -15,13 +15,27 @@ THREE.InvisibilityShader = {
 
 	vertexShader: [
 
-		"varying vec3 vRefractForward[9];",
-		"varying vec3 vRefractBackward[8];",
+		"varying vec3 vRefractForward[10];",
+		"varying vec3 vRefractBackward[9];",
 		"varying vec3 vRefractEnd[3];",
 		"varying vec3 vRefractBegin[3];",
 		"varying vec3 fNormal;",
 
 		"vec3 refractFull(vec3 I, vec3 N, float eta);",
+		"vec3 refractIn(vec3 I, vec3 N);",
+		"vec3 refractOut(vec3 I, vec3 N);",
+
+		"vec3 refractIn(vec3 I, vec3 N){",
+		"float sigma = dot(-I, N) - sqrt(dot(I, N) * dot(I, N) + 1.0 - dot(I, I));",
+
+		"vec3 R = I + (sigma * N);",
+		"return R; }",
+
+		"vec3 refractOut(vec3 I, vec3 N){",
+		"float sigma = dot(-I, N) + sqrt(dot(I, N) * dot(I, N) + 1.0 - dot(I, I));",
+
+		"vec3 R = I + (sigma * N);",
+		"return R; }",
 
 		"vec3 refractFull(vec3 I, vec3 N, float eta){",
 		"float k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I));",
@@ -46,15 +60,16 @@ THREE.InvisibilityShader = {
 
 			"vec3 I = worldPosition.xyz - cameraPosition;",
 
-			"vRefractForward[0] = refractFull( normalize(I) , normal, 1.0/0.9 );",
-			"vRefractForward[1] = refractFull( vRefractForward[0] , normal, 0.9/0.8 );",
-			"vRefractForward[2] = refractFull( vRefractForward[1] , normal, 0.8/0.7 );",
-			"vRefractForward[3] = refractFull( vRefractForward[2] , normal, 0.7/0.6 );",
-			"vRefractForward[4] = refractFull( vRefractForward[3] , normal, 0.6/0.5 );",
-			"vRefractForward[5] = refractFull( vRefractForward[4] , normal, 0.5/0.4 );",
-			"vRefractForward[6] = refractFull( vRefractForward[5] , normal, 0.4/0.3);",
-			"vRefractForward[7] = refractFull( vRefractForward[6] , normal, 0.3/0.2);",
-			"vRefractForward[8] = refractFull( vRefractForward[7] , normal, 0.2/0.1);",
+			"vRefractForward[0] = refractIn(normalize(I), normal);",
+			"vRefractForward[1] = refractFull( vRefractForward[0] , normal, 1.0/0.9 );",
+			"vRefractForward[2] = refractFull( vRefractForward[1] , normal, 0.9/0.8 );",
+			"vRefractForward[3] = refractFull( vRefractForward[2] , normal, 0.8/0.7 );",
+			"vRefractForward[4] = refractFull( vRefractForward[3] , normal, 0.7/0.6 );",
+			"vRefractForward[5] = refractFull( vRefractForward[4] , normal, 0.6/0.5 );",
+			"vRefractForward[6] = refractFull( vRefractForward[5] , normal, 0.5/0.4 );",
+			"vRefractForward[7] = refractFull( vRefractForward[6] , normal, 0.4/0.3);",
+			"vRefractForward[8] = refractFull( vRefractForward[7] , normal, 0.3/0.2);",
+			"vRefractForward[9] = refractFull( vRefractForward[8] , normal, 0.2/0.1);",
 
 			"vRefractBackward[0] = refractFull( vRefractForward[8] , normal, 0.1/0.2 );",
 			"vRefractBackward[1] = refractFull( vRefractBackward[0] , normal, 0.2/0.3 );",
@@ -64,14 +79,15 @@ THREE.InvisibilityShader = {
 			"vRefractBackward[5] = refractFull( vRefractBackward[4] , normal, 0.6/0.7 );",
 			"vRefractBackward[6] = refractFull( vRefractBackward[5] , normal, 0.7/0.8);",
 			"vRefractBackward[7] = refractFull( vRefractBackward[6] , normal, 0.8/0.9);",
+			"vRefractBackward[8] = refractOut(vRefractBackward[7], normal);",
 
 			"vRefractBegin[0] = vRefractForward[0];",
 			"vRefractBegin[1] = vRefractForward[1];",
 			"vRefractBegin[2] = vRefractForward[2];",
 
-			"vRefractEnd[0] = vRefractBackward[5];",
-			"vRefractEnd[1] = vRefractBackward[6];",
-			"vRefractEnd[2] = vRefractBackward[7];",
+			"vRefractEnd[0] = vRefractBackward[6];",
+			"vRefractEnd[1] = vRefractBackward[7];",
+			"vRefractEnd[2] = vRefractBackward[8];",
 
 			"gl_Position = projectionMatrix * mvPosition;",
 
@@ -92,7 +108,7 @@ THREE.InvisibilityShader = {
 
 			"if ( fNormal.z < 0.0 )",
 			"{",
-			"refractedColor = textureCube( tCube, vec3( -vRefractEnd[2].x, vRefractEnd[2].yz ) );",
+			"refractedColor = textureCube( tCube, vec3( -vRefractEnd[2].x, vRefractEnd[2].y, -vRefractEnd[2].z ) );",
 			"}",
 			"else {",
 			"refractedColor = textureCube( tCube, vec3( -vRefractBegin[0].x, vRefractBegin[0].yz ) );",

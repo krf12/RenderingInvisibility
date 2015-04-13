@@ -13,59 +13,73 @@ THREE.ChromaticShader0 = {
 
 	},
 
-	vertexShader: [
+vertexShader: [
 
-		"varying vec3 vRefractForward[9];",
-		"varying vec3 vRefractBackward[8];",
-		"varying vec3 vRefractEnd[3];",
-		"varying vec3 vRefractBegin[3];",
-		"varying vec3 vNormal;",
-		"varying vec3 fNormal;",
+	"varying vec3 vRefractForward[10];",
+	"varying vec3 vRefractBackward[9];",
+	"varying vec3 vRefractEnd[3];",
+	"varying vec3 vRefractBegin[3];",
+	"varying vec3 fNormal;",
 
-		"vec3 refractFull(vec3 I, vec3 N, float eta);",
+	"vec3 refractFull(vec3 I, vec3 N, float eta);",
+	"vec3 refractIn(vec3 I, vec3 N);",
+	"vec3 refractOut(vec3 I, vec3 N);",
 
-		"vec3 refractFull(vec3 I, vec3 N, float eta){",
-		"float k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I));",
+	"vec3 refractIn(vec3 I, vec3 N){",
+	"float sigma = dot(-I, N) - sqrt(dot(I, N) * dot(I, N) + 1.0 - dot(I, I));",
 
-		"float kCheck = sqrt(k);",
+	"vec3 R = I + (sigma * N);",
+	"return R; }",
 
-		"if(kCheck < 0.0){",
-		"kCheck = kCheck * -1.0;",
-		"}",
+	"vec3 refractOut(vec3 I, vec3 N){",
+	"float sigma = dot(-I, N) + sqrt(dot(I, N) * dot(I, N) + 1.0 - dot(I, I));",
 
-		"vec3 R = eta * I - (eta * dot(N, I) + kCheck) * N;",
-		"return R; }",
+	"vec3 R = I + (sigma * N);",
+	"return R; }",
 
-		"void main() {",
+	"vec3 refractFull(vec3 I, vec3 N, float eta){",
+	"float k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I));",
 
-			"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
-			"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );",
+	"float kCheck = sqrt(k);",
 
-			"vNormal = normal;",
-			"fNormal = normal;",
+	"if(kCheck < 0.0){",
+	"kCheck = kCheck * -1.0;",
+	"}",
 
-			"vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );",
+	"vec3 R = eta * I - (eta * dot(N, I) + kCheck) * N;",
+	"return R; }",
 
-			"vec3 I = worldPosition.xyz - cameraPosition;",
+	"void main() {",
 
-			"vRefractForward[0] = refractFull( normalize(I) , vNormal, 1.0/0.9 );",
-			"vRefractForward[1] = refractFull( vRefractForward[0] , vNormal, 0.9/0.8 );",
-			"vRefractForward[2] = refractFull( vRefractForward[1] , vNormal, 0.8/0.7 );",
-			"vRefractForward[3] = refractFull( vRefractForward[2] , vNormal, 0.7/0.6 );",
-			"vRefractForward[4] = refractFull( vRefractForward[3] , vNormal, 0.6/0.5 );",
-			"vRefractForward[5] = refractFull( vRefractForward[4] , vNormal, 0.5/0.4 );",
-			"vRefractForward[6] = refractFull( vRefractForward[5] , vNormal, 0.4/0.3);",
-			"vRefractForward[7] = refractFull( vRefractForward[6] , vNormal, 0.3/0.2);",
-			"vRefractForward[8] = refractFull( vRefractForward[7] , vNormal, 0.2/0.1);",
+		"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+		"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );",
 
-			"vRefractBackward[0] = refractFull( vRefractForward[8] , vNormal, 0.1/0.2 );",
-			"vRefractBackward[1] = refractFull( vRefractBackward[0] , vNormal, 0.2/0.3 );",
-			"vRefractBackward[2] = refractFull( vRefractBackward[1] , vNormal, 0.3/0.4 );",
-			"vRefractBackward[3] = refractFull( vRefractBackward[2] , vNormal, 0.4/0.5 );",
-			"vRefractBackward[4] = refractFull( vRefractBackward[3] , vNormal, 0.5/0.6 );",
-			"vRefractBackward[5] = refractFull( vRefractBackward[4] , vNormal, 0.6/0.7 );",
-			"vRefractBackward[6] = refractFull( vRefractBackward[5] , vNormal, 0.7/0.8);",
-			"vRefractBackward[7] = refractFull( vRefractBackward[6] , vNormal, 0.8/0.9);",
+		"fNormal = normal;",
+
+		"vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );",
+
+		"vec3 I = worldPosition.xyz - cameraPosition;",
+
+		"vRefractForward[0] = refractIn(normalize(I), normal);",
+		"vRefractForward[1] = refractFull( vRefractForward[0] , normal, 1.0/0.9 );",
+		"vRefractForward[2] = refractFull( vRefractForward[1] , normal, 0.9/0.8 );",
+		"vRefractForward[3] = refractFull( vRefractForward[2] , normal, 0.8/0.7 );",
+		"vRefractForward[4] = refractFull( vRefractForward[3] , normal, 0.7/0.6 );",
+		"vRefractForward[5] = refractFull( vRefractForward[4] , normal, 0.6/0.5 );",
+		"vRefractForward[6] = refractFull( vRefractForward[5] , normal, 0.5/0.4 );",
+		"vRefractForward[7] = refractFull( vRefractForward[6] , normal, 0.4/0.3);",
+		"vRefractForward[8] = refractFull( vRefractForward[7] , normal, 0.3/0.2);",
+		"vRefractForward[9] = refractFull( vRefractForward[8] , normal, 0.2/0.1);",
+
+		"vRefractBackward[0] = refractFull( vRefractForward[8] , normal, 0.1/0.2 );",
+		"vRefractBackward[1] = refractFull( vRefractBackward[0] , normal, 0.2/0.3 );",
+		"vRefractBackward[2] = refractFull( vRefractBackward[1] , normal, 0.3/0.4 );",
+		"vRefractBackward[3] = refractFull( vRefractBackward[2] , normal, 0.4/0.5 );",
+		"vRefractBackward[4] = refractFull( vRefractBackward[3] , normal, 0.5/0.6 );",
+		"vRefractBackward[5] = refractFull( vRefractBackward[4] , normal, 0.6/0.7 );",
+		"vRefractBackward[6] = refractFull( vRefractBackward[5] , normal, 0.7/0.8);",
+		"vRefractBackward[7] = refractFull( vRefractBackward[6] , normal, 0.8/0.9);",
+		"vRefractBackward[8] = refractOut(vRefractBackward[7], normal);",
 
 			"vRefractBegin[0] = vRefractForward[6];",
 			"vRefractBegin[1] = vRefractForward[7];",

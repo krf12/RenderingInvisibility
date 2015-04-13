@@ -71,15 +71,15 @@ public class Refraction {
         double positiveSigma = -incidentVector.dot(surfaceNormal) + Math.sqrt(Math.pow(incidentVector.dot(surfaceNormal), 2.0) + (1 - incidentVector.dot(incidentVector)));
         double negativeSigma = -incidentVector.dot(surfaceNormal) - Math.sqrt(Math.pow(incidentVector.dot(surfaceNormal), 2.0) + (1 - incidentVector.dot(incidentVector)));
         
-        Vector postiveR = incidentVector.plus(surfaceNormal.times(positiveSigma));
+        Vector positiveR = incidentVector.plus(surfaceNormal.times(positiveSigma));
         Vector negativeR = incidentVector.plus(surfaceNormal.times(negativeSigma));
         
-        System.out.println(postiveR.toString());
+        System.out.println(positiveR.toString());
         System.out.println(negativeR.toString());
         
-        incidentVector = postiveR;
+        incidentVector = positiveR;
         
-        for(int i = 1; i < eta.length - 1; i++){
+        for(int i = 0; i < eta.length - 1; i++){
             System.out.println(eta[i] + "/" + eta[i+1]);
             double etaTemp = eta[i]/eta[i+1];
             
@@ -111,6 +111,10 @@ public class Refraction {
             incidentVector = R;
         }
         
+        double negativeSigma2 = -incidentVector.dot(surfaceNormal) - Math.sqrt(Math.pow(incidentVector.dot(surfaceNormal), 2.0) + (1 - incidentVector.dot(incidentVector)));
+        Vector negativeR2 = incidentVector.plus(surfaceNormal.times(negativeSigma2));
+        
+        System.out.println(negativeR2);
     }
     
 }
