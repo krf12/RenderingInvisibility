@@ -15,10 +15,11 @@ public class Refraction {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        double surfaceData[] = new double[]{-500.0, -250.0, 0.0};
+        
+        double surfaceData[] = new double[]{237.7641290737884, 172.74575140626317, 404.5084971874737};
         Vector surfaceNormal = new Vector(surfaceData);
         
-        double incidentData[] = new double[]{150.0, 50.0, 0.0};
+        double incidentData[] = new double[]{1000.0, 1000.0, 1000.0};
         Vector incidentVector = new Vector(incidentData);
         
         incidentVector = incidentVector.direction();
@@ -60,10 +61,10 @@ public class Refraction {
             incidentVector = R;
         }
         
-        double surfaceData2[] = new double[]{-500.0, -250.0, 0.0};
+        double surfaceData2[] = new double[]{237.7641290737884, 172.74575140626317, 404.5084971874737};
         surfaceNormal = new Vector(surfaceData2);
         
-        double incidentData2[] = new double[]{150.0, 50.0, 0.0};
+        double incidentData2[] = new double[]{1000.0, 1000.0, 1000.0};
         incidentVector = new Vector(incidentData2);
         
         System.out.println("START OF NEXT METHOD");

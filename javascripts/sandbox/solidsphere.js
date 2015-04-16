@@ -132,6 +132,71 @@ function init(){
 	scene.add(innerSphere);
 	scene.add(sphere);
 
+	 var lineMaterial = new THREE.LineBasicMaterial({
+        color: 0x0000ff
+    });
+
+	var lineGeometry = new THREE.Geometry();
+
+	var linex = 500 * Math.sin(Math.PI/5) * Math.cos(Math.PI/5);
+	var liney = 500 * Math.sin(Math.PI/5) * Math.sin(Math.PI/5);
+	var linez = 500 * Math.cos(Math.PI/5);
+	var normalVector = new THREE.Vector3(linex, liney, linez);
+	console.log(normalVector);
+	var incidentVector = new THREE.Vector3(-1000, -1000, -1000);
+
+	var lineArray = new Array(incidentVector, normalVector);
+
+/*	var inVector = refractIn(incidentVector, normalVector);
+	lineArray.push(inVector);
+
+	var firstVector = refractFull(inVector, normalVector, 1.0/0.9);
+	lineArray.push(firstVector);
+	var secondVector = refractFull(firstVector, normalVector, 0.9/0.8);
+	lineArray.push(secondVector);
+	var thirdVector = refractFull(secondVector, normalVector, 0.8/0.7);
+	lineArray.push(thirdVector);
+	var fourthVector = refractFull(thirdVector, normalVector, 0.7/0.6);
+	lineArray.push(fourthVector);
+	var fifthVector = refractFull(fourthVector, normalVector, 0.6/0.5);
+	lineArray.push(fifthVector);
+	var sixthVector = refractFull(fifthVector, normalVector, 0.5/0.4);
+	lineArray.push(sixthVector);
+	var seventhVector = refractFull(sixthVector, normalVector, 0.4/0.3);
+	lineArray.push(seventhVector);
+	var eigthVector = refractFull(seventhVector, normalVector, 0.3/0.2);
+  lineArray.push(eigthVector);
+	var ninthVector = refractFull(eigthVector, normalVector, 0.2/0.1);
+	lineArray.push(ninthVector);
+
+	incidentVector = refractFull(incidentVector, normalVector, 0.1/0.2);
+	lineGeometry.vertices.push(incidentVector);
+	incidentVector = refractFull(incidentVector, normalVector, 0.2/0.3);
+	lineGeometry.vertices.push(incidentVector);
+	incidentVector = refractFull(incidentVector, normalVector, 0.3/0.4);
+	lineGeometry.vertices.push(incidentVector);
+	incidentVector = refractFull(incidentVector, normalVector, 0.4/0.5);
+	lineGeometry.vertices.push(incidentVector);
+	incidentVector = refractFull(incidentVector, normalVector, 0.5/0.6);
+	lineGeometry.vertices.push(incidentVector);
+	incidentVector = refractFull(incidentVector, normalVector, 0.6/0.7);
+	lineGeometry.vertices.push(incidentVector);
+	incidentVector = refractFull(incidentVector, normalVector, 0.7/0.8);
+	lineGeometry.vertices.push(incidentVector);
+	incidentVector = refractFull(incidentVector, normalVector, 0.8/0.9);
+	lineGeometry.vertices.push(incidentVector);
+
+	incidentVector = refractOut(incidentVector, normalVector);
+	lineGeometry.vertices.push(incidentVector);*/
+
+	for(j = 0; j < lineArray.length; j++){
+		console.log(lineArray[j]);
+		lineGeometry.vertices.push(lineArray[j]);
+	}
+
+	var line = new THREE.Line(lineGeometry, lineMaterial);
+	scene.add(line);
+
 	var cubeGeom = new THREE.CubeGeometry(100, 100, 100);
 	var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
 	var cube = new THREE.Mesh(cubeGeom, cubeMaterial);
@@ -201,6 +266,44 @@ function updateSphere(){
 	}
 
 }
+
+function refractIn(incidentVector, normalVector){
+
+var sigma = normalVector.dot(incidentVector.negate()) - Math.sqrt(incidentVector.dot(normalVector) * incidentVector.dot(normalVector) + 1.0 - incidentVector.dot(incidentVector));
+
+console.log(sigma);
+
+var R = new THREE.Vector3(0, 0, 0);
+R = R.addVectors(incidentVector, normalVector.multiplyScalar(sigma));
+
+console.log(R);
+
+return R; }
+
+
+/*
+function refractOut(incidentVector, normalVector){
+
+var sigma = normalVector.dot(-incidentVector) + Math.sqrt(incidentVector.dot(normalVector) * incidentVector.dot(normalVector) + 1.0 - incidentVector.dot(incidentVector));
+
+var R = incidentVector + (sigma * normalVector);
+return R; }
+
+
+
+function refractFull(incidentVector, normalVector, eta){
+var k = 1.0 - eta * eta * (1.0 - normalVector.dot(incidentVector) * normalVector.dot(incidentVector));
+
+var kCheck = Math.sqrt(k);
+
+if(kCheck < 0.0){
+kCheck = kCheck * -1.0;
+}
+
+var R = eta * incidentVector - (eta * normalVector.dot(incidentVector) + kCheck) * normalVector;
+return R; }
+
+*/
 
 function update(){
 	if(innerCameraActive){
