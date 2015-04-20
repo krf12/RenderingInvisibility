@@ -134,7 +134,7 @@ function init(){
 
 	 var lineMaterial = new THREE.LineBasicMaterial({
         color: 0x0000ff,
-				lineWidth: 3
+				lineWidth: 5
     });
 
 		var lineGeometry = new THREE.Geometry();
@@ -211,8 +211,6 @@ function init(){
 
 		splineArray.push(tempVector);
 
-		console.log(tempVector);
-
 		if(j < lineArray.length/2){
 			lineRatio = lineRatio - 50;
 			if(tempVector.x < 0){
@@ -226,27 +224,49 @@ function init(){
 			}
 		}
 
-		var spherePointGeom = new THREE.SphereGeometry(5, 64, 64);
-		var spherePointMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} )
-		var tempSphere = new THREE.Mesh(spherePointGeom, spherePointMaterial);
-		tempSphere.position = tempVector;
-		scene.add(tempSphere);
-
 	}
 
+
 	var spline = new THREE.SplineCurve3(splineArray);
-	var num_points = 150;
+	var num_points = 20;
 
 	var splinePoints = spline.getPoints(num_points);
 
+	var secondLineGeometry = new THREE.Geometry();
+
 for(var i = 0; i < splinePoints.length; i++){
-		//console.log(splinePoints[i]);
+
+	if(i < splinePoints.length/2 - 1){
+		console.log(splinePoints[i]);
     lineGeometry.vertices.push(splinePoints[i]);
+	}
+	else{
+		console.log(splinePoints[i]);
+		secondLineGeometry.vertices.push(splinePoints[i]);
+	}
 }
 
+	var startVector = splinePoints[0];
+	var endVector = splinePoints[splinePoints.length-1];
+
+	var middleVector = new THREE.Vector3(((startVector.x + endVector.x)/2), ((startVector.y + endVector.y)/2), ((startVector.z + endVector.z)/2));
+
+	middleVector.setX(-400);
+
+	var curve = new THREE.QuadraticBezierCurve3(startVector, middleVector, endVector);
+
+	var path = new THREE.CurvePath();
+
+	path.add(curve);
 
 	var line = new THREE.Line(lineGeometry, lineMaterial);
 	scene.add(line);
+
+	var secondline = new THREE.Line(secondLineGeometry, lineMaterial);
+	scene.add(secondline);
+
+	curvedLine = new THREE.Line(path.createPointsGeometry(20), lineMaterial);
+	scene.add(curvedLine);
 
 	var cubeGeom = new THREE.CubeGeometry(25, 25, 25);
 	var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
