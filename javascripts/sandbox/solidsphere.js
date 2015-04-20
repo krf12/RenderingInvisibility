@@ -133,7 +133,8 @@ function init(){
 	scene.add(sphere);
 
 	 var lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x0000ff
+        color: 0x0000ff,
+				lineWidth: 3
     });
 
 		var lineGeometry = new THREE.Geometry();
@@ -153,7 +154,7 @@ function init(){
 	var lineArray = new Array(incidentVector);
 
   var inVector = refractIn(incidentVector, normalVector);
-	lineArray.push(normalVector);
+	lineArray.push(inVector);
 
 	var firstVector = refractFull(inVector, normalVector, 0.9, 450);
 	lineArray.push(firstVector[0]);
@@ -196,6 +197,8 @@ function init(){
 
 	var lineRatio = 500;
 
+	var splineArray = new Array();
+
 	for(j = lineArray.length - 1; j > 0; j--){
 
 		var tempVector = new THREE.Vector3(0, 0, 0);
@@ -206,18 +209,41 @@ function init(){
 			tempVector.multiplyScalar(lineRatio);
 		}
 
-		console.log(tempVector);
+		splineArray.push(tempVector);
 
-		lineGeometry.vertices.push(tempVector);
+		console.log(tempVector);
 
 		if(j < lineArray.length/2){
 			lineRatio = lineRatio - 50;
+			if(tempVector.x < 0){
+				tempVector.negate();
+			}
 		}
 		else if(j > lineArray.length/2){
        lineRatio = lineRatio + 50;
+			if(tempVector.x > 0){
+				tempVector.negate();
+			}
 		}
 
+		var spherePointGeom = new THREE.SphereGeometry(5, 64, 64);
+		var spherePointMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} )
+		var tempSphere = new THREE.Mesh(spherePointGeom, spherePointMaterial);
+		tempSphere.position = tempVector;
+		scene.add(tempSphere);
+
 	}
+
+	var spline = new THREE.SplineCurve3(splineArray);
+	var num_points = 150;
+
+	var splinePoints = spline.getPoints(num_points);
+
+for(var i = 0; i < splinePoints.length; i++){
+		//console.log(splinePoints[i]);
+    lineGeometry.vertices.push(splinePoints[i]);
+}
+
 
 	var line = new THREE.Line(lineGeometry, lineMaterial);
 	scene.add(line);
