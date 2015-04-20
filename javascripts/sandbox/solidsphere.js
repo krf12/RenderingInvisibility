@@ -138,86 +138,85 @@ function init(){
 
 		var lineGeometry = new THREE.Geometry();
 
-	var normalArray = new Array();
-	var ratio = 500;
-
-	for(i = 0; i < 10; i++){
+		var ratio = 500;
 
 		var linex = ratio * Math.sin(Math.PI/5) * Math.cos(Math.PI/5);
 		var liney = ratio * Math.sin(Math.PI/5) * Math.sin(Math.PI/5);
 		var linez = ratio * Math.cos(Math.PI/5);
 		var normalVector = new THREE.Vector3(linex, liney, linez);
 
-		normalArray.push(normalVector);
-		ratio = ratio - 50;
-
-	}
-
-	var incidentVector = new THREE.Vector3(1000, 1000, 1000);
-	incidentVector.normalize();
+	var incidentNormalVector = new THREE.Vector3(1000, 1000, 1000);
+	var incidentVector = new THREE.Vector3(0,0,0)
+	incidentVector.copy(incidentNormalVector);
+	incidentNormalVector.normalize();
 
 	var lineArray = new Array(incidentVector);
 
-  var inVector = refractIn(incidentVector, normalArray[0]);
-	lineArray.push(inVector);
+  var inVector = refractIn(incidentVector, normalVector);
+	lineArray.push(normalVector);
 
-	var firstVector = refractFull(inVector, normalArray[1], 1.0/0.9);
-	lineArray.push(firstVector);
-  var secondVector = refractFull(firstVector, normalArray[2], 0.9/0.8);
-	lineArray.push(secondVector);
-	var thirdVector = refractFull(secondVector, normalArray[3], 0.8/0.7);
-	lineArray.push(thirdVector);
-	var fourthVector = refractFull(thirdVector, normalArray[4], 0.7/0.6);
-	lineArray.push(fourthVector);
-	var fifthVector = refractFull(fourthVector, normalArray[5], 0.6/0.5);
-	lineArray.push(fifthVector);
-	var sixthVector = refractFull(fifthVector, normalArray[6], 0.5/0.4);
-	lineArray.push(sixthVector);
-	var seventhVector = refractFull(sixthVector, normalArray[7], 0.4/0.3);
-	lineArray.push(seventhVector);
-	var eigthVector = refractFull(seventhVector, normalArray[8], 0.3/0.2);
-  lineArray.push(eigthVector);
-	var ninthVector = refractFull(eigthVector, normalArray[9], 0.2/0.1);
-	lineArray.push(ninthVector);
+	var firstVector = refractFull(inVector, normalVector, 0.9, 450);
+	lineArray.push(firstVector[0]);
+  var secondVector = refractFull(firstVector[0], firstVector[1], 0.8, 400);
+	lineArray.push(secondVector[0]);
+	var thirdVector = refractFull(secondVector[0], secondVector[1], 0.7, 350);
+	lineArray.push(thirdVector[0]);
+	var fourthVector = refractFull(thirdVector[0], thirdVector[1], 0.6, 300);
+	lineArray.push(fourthVector[0]);
+	var fifthVector = refractFull(fourthVector[0], fourthVector[1], 0.5, 250);
+	lineArray.push(fifthVector[0]);
+	var sixthVector = refractFull(fifthVector[0], fifthVector[1], 0.4, 200);
+	lineArray.push(sixthVector[0]);
+	var seventhVector = refractFull(sixthVector[0], sixthVector[1], 0.3, 150);
+	lineArray.push(seventhVector[0]);
+	var eigthVector = refractFull(seventhVector[0], seventhVector[1], 0.2, 100);
+  lineArray.push(eigthVector[0]);
+	var ninthVector = refractFull(eigthVector[0], eigthVector[1], 0.1, 50);
+	lineArray.push(ninthVector[0]);
 
-	var tenthVector = refractFull(ninthVector, normalArray[8], 0.1/0.2);
-	lineArray.push(tenthVector);
-	var eleventhVector = refractFull(tenthVector, normalArray[7], 0.2/0.3);
-	lineArray.push(eleventhVector);
-	var twelfthVector = refractFull(eleventhVector, normalArray[6], 0.3/0.4);
-	lineArray.push(twelfthVector);
-	var thirteenthVector = refractFull(twelfthVector, normalArray[5], 0.4/0.5);
-	lineArray.push(thirteenthVector);
-	var fourteenthVector = refractFull(thirteenthVector, normalArray[4], 0.5/0.6);
-	lineArray.push(fourteenthVector);
-	var fifteenthVector = refractFull(fourteenthVector, normalArray[3], 0.6/0.7);
-	lineArray.push(fifteenthVector);
-	var sixteenthVector = refractFull(fifteenthVector, normalArray[2], 0.7/0.8);
-	lineArray.push(sixteenthVector);
- 	var seventeenthVector = refractFull(sixteenthVector, normalArray[1], 0.8/0.9);
-	lineArray.push(seventeenthVector);
+	var tenthVector = refractFull(ninthVector[0], ninthVector[1], 0.2, 100);
+	lineArray.push(tenthVector[0]);
+	var eleventhVector = refractFull(tenthVector[0], tenthVector[1], 0.3, 150);
+	lineArray.push(eleventhVector[0]);
+	var twelfthVector = refractFull(eleventhVector[0], eleventhVector[1], 0.4, 200);
+	lineArray.push(twelfthVector[0]);
+	var thirteenthVector = refractFull(twelfthVector[0], twelfthVector[1], 0.5, 250);
+	lineArray.push(thirteenthVector[0]);
+	var fourteenthVector = refractFull(thirteenthVector[0], thirteenthVector[1], 0.6, 300);
+	lineArray.push(fourteenthVector[0]);
+	var fifteenthVector = refractFull(fourteenthVector[0], fourteenthVector[1], 0.7, 350);
+	lineArray.push(fifteenthVector[0]);
+	var sixteenthVector = refractFull(fifteenthVector[0], fifteenthVector[1], 0.8, 400);
+	lineArray.push(sixteenthVector[0]);
+ 	var seventeenthVector = refractFull(sixteenthVector[0], sixteenthVector[1], 0.9, 450);
+	lineArray.push(seventeenthVector[0]);
 
-	outVector = refractOut(seventeenthVector, normalArray[0]);
-	lineArray.push(outVector);
+	outVector = refractOut(seventeenthVector[0], seventeenthVector[1]);
+	lineArray.push(outVector.negate());
 
-	var lineRatio = 50;
+	var lineRatio = 500;
 
-	for(j = 0; j < lineArray.length; j++){
-		//console.log(lineArray[j]);
+	for(j = lineArray.length - 1; j > 0; j--){
 
 		var tempVector = new THREE.Vector3(0, 0, 0);
 		tempVector.copy(lineArray[j]);
+
 		if(j != 0){
-		tempVector.normalize();
-		tempVector.multiplyScalar(lineRatio);
+			tempVector.normalize();
+			tempVector.multiplyScalar(lineRatio);
 		}
 
 		console.log(tempVector);
 
-
 		lineGeometry.vertices.push(tempVector);
 
-		lineRatio = lineRatio + 50;
+		if(j < lineArray.length/2){
+			lineRatio = lineRatio - 50;
+		}
+		else if(j > lineArray.length/2){
+       lineRatio = lineRatio + 50;
+		}
+
 	}
 
 	var line = new THREE.Line(lineGeometry, lineMaterial);

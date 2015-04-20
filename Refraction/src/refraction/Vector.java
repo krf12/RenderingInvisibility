@@ -133,4 +133,8 @@ public class Vector {
         }
         return s + ")";
     }
+    
+    public double[] getData(){
+        return this.data;
+    }
 }
