@@ -12,7 +12,7 @@ var sphere;
 var refractmap;
 var innerCameraActive = false;
 var params = {
-		chromatic: false,
+	chromatic: false,
 };
 
 function init(){
@@ -24,12 +24,12 @@ function init(){
 
 
 	var urls = [
-		'./skybox-assets/posx.png',
-		'./skybox-assets/negx.png',
-		'./skybox-assets/posy.png',
-		'./skybox-assets/negy.png',
-		'./skybox-assets/posz.png',
-		'./skybox-assets/negz.png'
+	'./skybox-assets/posx.png',
+	'./skybox-assets/negx.png',
+	'./skybox-assets/posy.png',
+	'./skybox-assets/negy.png',
+	'./skybox-assets/posz.png',
+	'./skybox-assets/negz.png'
 	];
 
 	cubemap = THREE.ImageUtils.loadTextureCube( urls, render );
@@ -132,19 +132,19 @@ function init(){
 	scene.add(innerSphere);
 	scene.add(sphere);
 
-	 var lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x0000ff,
-				lineWidth: 5
-    });
+	var lineMaterial = new THREE.LineBasicMaterial({
+		color: 0x0000ff,
+		lineWidth: 5
+	});
 
-		var lineGeometry = new THREE.Geometry();
+	var lineGeometry = new THREE.Geometry();
 
-		var ratio = 500;
+	var ratio = 500;
 
-		var linex = ratio * Math.sin(Math.PI/5) * Math.cos(Math.PI/5);
-		var liney = ratio * Math.sin(Math.PI/5) * Math.sin(Math.PI/5);
-		var linez = ratio * Math.cos(Math.PI/5);
-		var normalVector = new THREE.Vector3(linex, liney, linez);
+	var linex = ratio * Math.sin(Math.PI/5) * Math.cos(Math.PI/5);
+	var liney = ratio * Math.sin(Math.PI/5) * Math.sin(Math.PI/5);
+	var linez = ratio * Math.cos(Math.PI/5);
+	var normalVector = new THREE.Vector3(linex, liney, linez);
 
 	var incidentNormalVector = new THREE.Vector3(1000, 1000, 1000);
 	var incidentVector = new THREE.Vector3(0,0,0)
@@ -153,12 +153,12 @@ function init(){
 
 	var lineArray = new Array(incidentVector);
 
-  var inVector = refractIn(incidentVector, normalVector);
+	var inVector = refractIn(incidentVector, normalVector);
 	lineArray.push(inVector);
 
 	var firstVector = refractFull(inVector, normalVector, 0.9, 450);
 	lineArray.push(firstVector[0]);
-  var secondVector = refractFull(firstVector[0], firstVector[1], 0.8, 400);
+	var secondVector = refractFull(firstVector[0], firstVector[1], 0.8, 400);
 	lineArray.push(secondVector[0]);
 	var thirdVector = refractFull(secondVector[0], secondVector[1], 0.7, 350);
 	lineArray.push(thirdVector[0]);
@@ -171,7 +171,7 @@ function init(){
 	var seventhVector = refractFull(sixthVector[0], sixthVector[1], 0.3, 150);
 	lineArray.push(seventhVector[0]);
 	var eigthVector = refractFull(seventhVector[0], seventhVector[1], 0.2, 100);
-  lineArray.push(eigthVector[0]);
+	lineArray.push(eigthVector[0]);
 	var ninthVector = refractFull(eigthVector[0], eigthVector[1], 0.1, 50);
 	lineArray.push(ninthVector[0]);
 
@@ -189,7 +189,7 @@ function init(){
 	lineArray.push(fifteenthVector[0]);
 	var sixteenthVector = refractFull(fifteenthVector[0], fifteenthVector[1], 0.8, 400);
 	lineArray.push(sixteenthVector[0]);
- 	var seventeenthVector = refractFull(sixteenthVector[0], sixteenthVector[1], 0.9, 450);
+	var seventeenthVector = refractFull(sixteenthVector[0], sixteenthVector[1], 0.9, 450);
 	lineArray.push(seventeenthVector[0]);
 
 	outVector = refractOut(seventeenthVector[0], seventeenthVector[1]);
@@ -218,7 +218,7 @@ function init(){
 			}
 		}
 		else if(j > lineArray.length/2){
-       lineRatio = lineRatio + 50;
+			lineRatio = lineRatio + 50;
 			if(tempVector.x > 0){
 				tempVector.negate();
 			}
@@ -234,17 +234,17 @@ function init(){
 
 	var secondLineGeometry = new THREE.Geometry();
 
-for(var i = 0; i < splinePoints.length; i++){
+	for(var i = 0; i < splinePoints.length; i++){
 
-	if(i < splinePoints.length/2 - 1){
-		console.log(splinePoints[i]);
-    lineGeometry.vertices.push(splinePoints[i]);
+		if(i < splinePoints.length/2 - 1){
+			console.log(splinePoints[i]);
+			lineGeometry.vertices.push(splinePoints[i]);
+		}
+		else{
+			console.log(splinePoints[i]);
+			secondLineGeometry.vertices.push(splinePoints[i]);
+		}
 	}
-	else{
-		console.log(splinePoints[i]);
-		secondLineGeometry.vertices.push(splinePoints[i]);
-	}
-}
 
 	var startVector = splinePoints[0];
 	var endVector = splinePoints[splinePoints.length-1];
@@ -346,27 +346,27 @@ function update(){
 		controls.update();
 	}
 	if ( keyboard.pressed("1") )
-	{  innerCameraActive = true;  }
-	if ( keyboard.pressed("2") )
-	{  innerCameraActive = false;  }
+		{  innerCameraActive = true;  }
+		if ( keyboard.pressed("2") )
+			{  innerCameraActive = false;  }
 
-	updateSphere();
+			updateSphere();
 
-}
+		}
 
-function render() {
-  renderer.clear();
-  if (innerCameraActive)
-	{  renderer.render( scene, innerCamera );  }
-	else
-	{  renderer.render( scene, camera );  }
-}
+		function render() {
+			renderer.clear();
+			if (innerCameraActive)
+				{  renderer.render( scene, innerCamera );  }
+				else
+					{  renderer.render( scene, camera );  }
+				}
 
-function animate(){
-  requestAnimationFrame( animate );
-  render();
-  update();
-}
+				function animate(){
+					requestAnimationFrame( animate );
+					render();
+					update();
+				}
 
-init();
-animate();
+				init();
+				animate();
