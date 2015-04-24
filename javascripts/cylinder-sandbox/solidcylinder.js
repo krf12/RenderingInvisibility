@@ -62,41 +62,6 @@ function init(){
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	innerControls = new THREE.OrbitControls( innerCamera, renderer.domElement);
 
-if(params.chromatic){
-	console.log("check");
-
-	var ChromaticShader = THREE.ChromaticShader;
-	var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
-	ChromaticUniforms[ "tCube" ].value = refractmap;
-
-	var cylinderGeom = new THREE.CylinderGeometry(500,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
-	var clearMaterial = new THREE.ShaderMaterial( {
-		fragmentShader: ChromaticShader.fragmentShader,
-		vertexShader: ChromaticShader.vertexShader,
-		uniforms: ChromaticUniforms,
-		side: THREE.FrontSide
-	});
-	cylinder = new THREE.Mesh(cylinderGeom, clearMaterial);
-
-	var ChromaticInnerShader = THREE.ChromaticInnerShader;
-	var ChromaticInnerUniforms = THREE.UniformsUtils.clone( ChromaticInnerShader.uniforms );
-	ChromaticInnerUniforms[ "tCube" ].value = refractmap;
-
-	var innerGeom = new THREE.CylinderGeometry(250,64,64, Math.PI/2, Math.PI*2, 0, Math.PI);
-
-	var innerClearMaterial = new THREE.ShaderMaterial( {
-		fragmentShader: ChromaticInnerShader.fragmentShader,
-		vertexShader: ChromaticInnerShader.vertexShader,
-		uniforms: ChromaticInnerUniforms,
-		side: THREE.FrontSide
-	});
-
-	innerCylinder = new THREE.Mesh(innerGeom, innerClearMaterial);
-
-}
-else{
-	console.log("other check");
-
 	var InvisibilityShader = THREE.InvisibilityShader;
 	var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
 	InvisibilityUniforms[ "tCube" ].value = refractmap;
@@ -124,7 +89,6 @@ else{
 	});
 
 	innerCylinder = new THREE.Mesh(innerGeom, innerClearMaterial);
-}
 
 	var innerCylinderGeom = new THREE.CylinderGeometry(250, 250, 300,64,64);
 	var innerClearMaterial2 = new THREE.MeshLambertMaterial( { envMap: refractmap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );

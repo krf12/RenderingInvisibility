@@ -7,19 +7,21 @@ document.body.appendChild(renderer.domElement);
 
 //Global Variables
 var scene, camera, cubemap, controls, innerControls, keyboard;
-var innerCameraActive = false;
-var innerCone;
-var cone;
+var innerShape2;
+var innerShape;
+var shape;
 var refractmap;
 var innerCameraActive = false;
 var params = {
 	chromatic: false,
+	singleviewpoint: true,
 };
 
 function init(){
 
 	var gui = new dat.GUI({width : 250});
-	gui.add(params, 'chromatic', "Chromatic?");
+	gui.add(params, 'chromatic', 'Chromatic?');
+	gui.add(params, 'singleviewpoint', 'Change Viewpoint?');
 	keyboard = new THREEx.KeyboardState();
 	scene = new THREE.Scene();
 
@@ -66,20 +68,20 @@ function init(){
 	var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
 	InvisibilityUniforms[ "tCube" ].value = refractmap;
 
-	var coneGeom = new THREE.CylinderGeometry(0, 500, 600,64,64);
+	var sphereGeom = new THREE.SphereGeometry(500,64,64);
 	var clearMaterial = new THREE.ShaderMaterial( {
 		fragmentShader: InvisibilityShader.fragmentShader,
 		vertexShader: InvisibilityShader.vertexShader,
 		uniforms: InvisibilityUniforms,
 		side: THREE.FrontSide
 	});
-	cone = new THREE.Mesh(coneGeom, clearMaterial);
+	shape = new THREE.Mesh(sphereGeom, clearMaterial);
 
 	var InvisibilityInnerShader = THREE.InvisibilityInnerShader;
 	var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
 	InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
 
-	var innerGeom = new THREE.CylinderGeometry(0, 250, 300,64,64);
+	var innerGeom = new THREE.SphereGeometry(250,64,64);
 
 	var innerClearMaterial = new THREE.ShaderMaterial( {
 		fragmentShader: InvisibilityInnerShader.fragmentShader,
@@ -88,15 +90,16 @@ function init(){
 		side: THREE.FrontSide
 	});
 
-	innerCone = new THREE.Mesh(innerGeom, innerClearMaterial);
+	innerShape = new THREE.Mesh(innerGeom, innerClearMaterial);
 
-	var innerConeGeom = new THREE.CylinderGeometry(0, 250, 300,64,64);
+
+	var innerSphereGeom = new THREE.SphereGeometry(250, 100, 100);
 	var innerClearMaterial2 = new THREE.MeshLambertMaterial( { envMap: refractmap, transparent: true, refractionRatio: 0.6, opacity: 0.8, side: THREE.BackSide } );
-	var innerCone2 = new THREE.Mesh(innerConeGeom, innerClearMaterial2);
+	innerShape2 = new THREE.Mesh(innerSphereGeom, innerClearMaterial2);
 
-	scene.add(innerCone);
-	scene.add(innerCone2);
-	scene.add(cone);
+	scene.add(innerShape2);
+	scene.add(innerShape);
+	scene.add(shape);
 
 	var lineMaterial = new THREE.LineBasicMaterial({
 		color: 0x0000ff,
@@ -105,9 +108,11 @@ function init(){
 
 	var lineGeometry = new THREE.Geometry();
 
-	var linex = 0.8 * 600/500;
-	var liney = 500/600;
-	var linez = 0.6 * 600/500;
+	var ratio = 500;
+
+	var linex = ratio * Math.sin(Math.PI/5) * Math.cos(Math.PI/5);
+	var liney = ratio * Math.sin(Math.PI/5) * Math.sin(Math.PI/5);
+	var linez = ratio * Math.cos(Math.PI/5);
 	var normalVector = new THREE.Vector3(linex, liney, linez);
 
 	var incidentNormalVector = new THREE.Vector3(1000, 1000, 1000);
@@ -232,8 +237,7 @@ function init(){
 	curvedLine = new THREE.Line(path.createPointsGeometry(20), lineMaterial);
 	scene.add(curvedLine);
 
-
-	var cubeGeom = new THREE.CubeGeometry(100, 100, 100);
+	var cubeGeom = new THREE.CubeGeometry(25, 25, 25);
 	var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
 	var cube = new THREE.Mesh(cubeGeom, cubeMaterial);
 	scene.add(cube);
@@ -242,12 +246,10 @@ function init(){
 	directionalLight.position.set(1, 50, 1).normalize();
 	scene.add(directionalLight);
 
-
-
 }
 
-function updateCone(){
-	if(params.chromatic){
+function updateShape(){
+	if((params.chromatic)&&(params.singleviewpoint==true)){
 
 		var ChromaticShader = THREE.ChromaticShader;
 		var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
@@ -259,7 +261,7 @@ function updateCone(){
 			uniforms: ChromaticUniforms,
 			side: THREE.FrontSide
 		});
-		cone.material = clearMaterial;
+		shape.material = clearMaterial;
 
 		var ChromaticInnerShader = THREE.ChromaticInnerShader;
 		var ChromaticInnerUniforms = THREE.UniformsUtils.clone( ChromaticInnerShader.uniforms );
@@ -272,10 +274,10 @@ function updateCone(){
 			side: THREE.FrontSide
 		});
 
-		innerCone.material = innerClearMaterial;
+		innerShape.material = innerClearMaterial;
 
 	}
-	else{
+	else if((!params.chromatic)&&(params.singleviewpoint == true)){
 
 		var InvisibilityShader = THREE.InvisibilityShader;
 		var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
@@ -287,7 +289,7 @@ function updateCone(){
 			uniforms: InvisibilityUniforms,
 			side: THREE.FrontSide
 		});
-		cone.material = clearMaterial;
+		shape.material = clearMaterial;
 
 		var InvisibilityInnerShader = THREE.InvisibilityInnerShader;
 		var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
@@ -300,11 +302,65 @@ function updateCone(){
 			side: THREE.FrontSide
 		});
 
-		innerCone.material = innerClearMaterial;
+		innerShape.material = innerClearMaterial;
+	}
+	else if((params.chromatic)&&(params.singleviewpoint==false)){
+
+		var ChromaticShader = THREE.ChromaticAllShader;
+		var ChromaticUniforms = THREE.UniformsUtils.clone( ChromaticShader.uniforms );
+		ChromaticUniforms[ "tCube" ].value = refractmap;
+
+		var clearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: ChromaticShader.fragmentShader,
+			vertexShader: ChromaticShader.vertexShader,
+			uniforms: ChromaticUniforms,
+			side: THREE.FrontSide
+		});
+		shape.material = clearMaterial;
+
+		var ChromaticInnerShader = THREE.ChromaticInnerAllShader;
+		var ChromaticInnerUniforms = THREE.UniformsUtils.clone( ChromaticInnerShader.uniforms );
+		ChromaticInnerUniforms[ "tCube" ].value = refractmap;
+
+		var innerClearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: ChromaticInnerShader.fragmentShader,
+			vertexShader: ChromaticInnerShader.vertexShader,
+			uniforms: ChromaticInnerUniforms,
+			side: THREE.FrontSide
+		});
+
+		innerShape.material = innerClearMaterial;
+
+	}
+	else if((!params.chromatic)&&(params.singleviewpoint == false)){
+
+		var InvisibilityShader = THREE.InvisibilityAllShader;
+		var InvisibilityUniforms = THREE.UniformsUtils.clone( InvisibilityShader.uniforms );
+		InvisibilityUniforms[ "tCube" ].value = refractmap;
+
+		var clearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: InvisibilityShader.fragmentShader,
+			vertexShader: InvisibilityShader.vertexShader,
+			uniforms: InvisibilityUniforms,
+			side: THREE.FrontSide
+		});
+		shape.material = clearMaterial;
+
+		var InvisibilityInnerShader = THREE.InvisibilityInnerAllShader;
+		var InvisibilityInnerUniforms = THREE.UniformsUtils.clone( InvisibilityInnerShader.uniforms );
+		InvisibilityInnerUniforms[ "tCube" ].value = refractmap;
+
+		var innerClearMaterial = new THREE.ShaderMaterial( {
+			fragmentShader: InvisibilityInnerShader.fragmentShader,
+			vertexShader: InvisibilityInnerShader.vertexShader,
+			uniforms: InvisibilityInnerUniforms,
+			side: THREE.FrontSide
+		});
+
+		innerShape.material = innerClearMaterial;
 	}
 
 }
-
 
 function update(){
 	if(innerCameraActive){
@@ -318,7 +374,8 @@ function update(){
 		if ( keyboard.pressed("2") )
 			{  innerCameraActive = false;  }
 
-			updateCone();
+			updateShape();
+
 		}
 
 		function render() {
