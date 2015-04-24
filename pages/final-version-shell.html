@@ -1,22 +1,99 @@
-<!DOCTYPE html>
-<html lang=en>
+<!doctype html>
+<html>
 <head>
-	<title> Sandbox for Solid Sphere </title>
-
-	 <script type="text/javascript" src="../javascripts/libs/three.js/three.js"></script>
-	 <script type="text/javascript" src="../javascripts/libs/refractUtils.js"></script>
-	 <script type="text/javascript" src="../javascripts/final-version/InvisibilityShader.js"></script>
-	 <script type="text/javascript" src="../javascripts/final-version/InvisibilityInnerShader.js"></script>
-	 <script type="text/javascript" src="../javascripts/final-version/ChromaticShader.js"></script>
-	 <script type="text/javascript" src="../javascripts/final-version/ChromaticInnerShader.js"></script>
-	 <script type="text/javascript" src="../javascripts/libs/OrbitControls.js"></script>
-	 <script type="text/javascript" src="http://stemkoski.github.io/Three.js/js/THREEx.KeyboardState.js"></script>
-	 <script type='text/javascript' src='../javascripts/libs/dat.gui.js'></script>
-
-
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title> Spherical Shell Invisibility Cloak - Visual Representation </title>
+	<link rel="stylesheet" href="../stylesheets/styles.css">
+	<link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../javascripts/respond.js"></script>
+	<script type="text/javascript" src="../javascripts/libs/three.js/three.js"></script>
+	<script type="text/javascript" src="../javascripts/libs/refractUtils.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityShader0.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityShader1.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityShader2.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityShader3.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityShader4.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityShader5.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityShader6.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityShader7.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityShader8.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticShader0.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticShader1.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticShader2.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticShader3.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticShader4.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticShader5.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticShader6.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticShader7.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticShader8.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityAllShader0.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityAllShader1.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityAllShader2.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityAllShader3.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityAllShader4.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityAllShader5.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityAllShader6.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityAllShader7.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/InvisibilityAllShader8.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticAllShader0.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticAllShader1.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticAllShader2.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticAllShader3.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticAllShader4.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticAllShader5.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticAllShader6.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticAllShader7.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-shell/ChromaticAllShader8.js"></script>
+	<script type="text/javascript" src="../javascripts/libs/OrbitControls.js"></script>
+	<script type="text/javascript" src="http://stemkoski.github.io/Three.js/js/THREEx.KeyboardState.js"></script>
+	<script type='text/javascript' src='../javascripts/libs/dat.gui.js'></script>
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 8]>
+	<link rel="stylesheet" href="stylesheets/ie.css">
+	<![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
 <body>
-	<div>
-	 <script type="text/javascript" src="../javascripts/final-version/final-index.js"></script>
-	</div>
-</body>
+
+	<div class="wrapper">
+
+		<section>
+			<div id="title">
+				<h1>Rendering Invisibility</h1>
+				<p>Looking into modelling &#39;realistic&#39; invisibility, using WebGL</p>
+				<hr>
+				<span class="credits left">Project maintained by <a href="https://github.com/krf12">krf12</a></span>
+				<span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+			</div>
+
+			<p>
+				This is the final version of my Spherical Shell Invisibility Cloak. It shows both chromatic and single viewpoint effects. These can be controlled
+				via the menu found in the right-hand corner.
+			</p>
+
+			<nav>
+				<ul>
+					<li><a href="../index.html">Home</a><li>
+						<li><a href="./version-tutorial.html">Tutorial</a><li>
+							<li><a href="./version1.html">Version One - Glass Spheres</a><li>
+								<li><a href="./version2.html">Version Two - Cloak Structure</a><li>
+									<li><a href="./final-version-cylinder.html">Final Version - Cylindrical Cloak</a><li>
+										<li><a href="./final-version-cone.html">Final Version - Conical Cloak</a><li>
+											<li><a href="./final-version.html">Final Version - Spherical Cloak</a><li>
+												<li><a href="./final-version-cylinder-shell.html">Final Version - Cylindriical Shell Cloak</a><li>
+									</ul>
+								</nav>
+
+								<!--[if !IE]><script>fixScale(document);</script><![endif]-->
+							</section>
+
+							<div>
+							<script type="text/javascript" src="../javascripts/final-version-shell/final-index.js"></script>
+						</div>
+					</div>
+				</body>
+				</html>

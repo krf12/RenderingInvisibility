@@ -5,7 +5,7 @@
 * Based on alteredq's Fresnel Shader / http://alteredqualia.com/
 */
 
-THREE.ChromaticShader0 = {
+THREE.ChromaticShader5 = {
 
 	uniforms: {
 

@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title> Cylindrical Shell Invisibility Cloak - Visual Representation </title>
+	<link rel="stylesheet" href="../stylesheets/styles.css">
+	<link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../javascripts/respond.js"></script>
+	<script type="text/javascript" src="../javascripts/libs/three.js/three.js"></script>
+	<script type="text/javascript" src="../javascripts/libs/refractUtils.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityShader0.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityShader1.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityShader2.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityShader3.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityShader4.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityShader5.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityShader6.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityShader7.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityShader8.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticShader0.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticShader1.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticShader2.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticShader3.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticShader4.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticShader5.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticShader6.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticShader7.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticShader8.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityAllShader0.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityAllShader1.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityAllShader2.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityAllShader3.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityAllShader4.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityAllShader5.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityAllShader6.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityAllShader7.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/InvisibilityAllShader8.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticAllShader0.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticAllShader1.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticAllShader2.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticAllShader3.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticAllShader4.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticAllShader5.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticAllShader6.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticAllShader7.js"></script>
+	<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/ChromaticAllShader8.js"></script>
+	<script type="text/javascript" src="../javascripts/libs/OrbitControls.js"></script>
+	<script type="text/javascript" src="http://stemkoski.github.io/Three.js/js/THREEx.KeyboardState.js"></script>
+	<script type='text/javascript' src='../javascripts/libs/dat.gui.js'></script>
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 8]>
+	<link rel="stylesheet" href="stylesheets/ie.css">
+	<![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+<body>
+
+	<div class="wrapper">
+
+		<section>
+			<div id="title">
+				<h1>Rendering Invisibility</h1>
+				<p>Looking into modelling &#39;realistic&#39; invisibility, using WebGL</p>
+				<hr>
+				<span class="credits left">Project maintained by <a href="https://github.com/krf12">krf12</a></span>
+				<span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+			</div>
+
+			<p>
+				This is the final version of my Cylindrical Shell Invisibility Cloak. It shows both chromatic and single viewpoint effects. These can be controlled
+				via the menu found in the right-hand corner.
+			</p>
+
+			<nav>
+				<ul>
+					<li><a href="../index.html">Home</a><li>
+						<li><a href="./version-tutorial.html">Tutorial</a><li>
+							<li><a href="./version1.html">Version One - Glass Spheres</a><li>
+								<li><a href="./version2.html">Version Two - Cloak Structure</a><li>
+									<li><a href="./final-version-cylinder.html">Final Version - Cylindrical Cloak</a><li>
+										<li><a href="./final-version-cone.html">Final Version - Conical Cloak</a><li>
+											<li><a href="./final-version.html">Final Version - Spherical Cloak</a><li>
+												<li><a href="./final-version-shell.html">Final Version - Spherical Shell Cloak</a><li>
+									</ul>
+								</nav>
+
+								<!--[if !IE]><script>fixScale(document);</script><![endif]-->
+							</section>
+
+							<div>
+							<script type="text/javascript" src="../javascripts/final-version-cylinder-shell/final-index.js"></script>
+						</div>
+					</div>
+				</body>
+				</html>
